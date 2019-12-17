@@ -18,14 +18,14 @@ set -eu
 # along with this program; if not, you can access it online at
 # http://www.gnu.org/licenses/gpl-2.0.html.
 
-true ${SOC:=rk3399}
+true ${SOC:=rk3328}
 true ${DISABLE_MKIMG:=0}
 
 UBOOT_REPO=https://github.com/friendlyarm/uboot-rockchip
 UBOOT_BRANCH=nanopi4-v2014.10_oreo
 
 ARCH=arm64
-UCFG=rk3399_defconfig
+UCFG=nanopi_r2_defconfig
 CROSS_COMPILER=aarch64-linux-
 
 TOPPATH=$PWD

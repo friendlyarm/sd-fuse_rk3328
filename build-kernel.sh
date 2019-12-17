@@ -19,7 +19,7 @@ set -eu
 # http://www.gnu.org/licenses/gpl-2.0.html.
 
 
-true ${SOC:=rk3399}
+true ${SOC:=rk3328}
 true ${DISABLE_MKIMG:=0}
 true ${LOGO:=}
 true ${KERNEL_LOGO:=}

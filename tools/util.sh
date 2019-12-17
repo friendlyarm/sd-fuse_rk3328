@@ -20,7 +20,7 @@ function has_built_kernel() {
 
 function has_built_kernel_modules() {
 	local OUTDIR=${2}
-	local SOC=rk3399
+	local SOC=rk3328
 	if [ -d ${OUTDIR}/output_${SOC}_kmodules ]; then
 		echo 1
 	else

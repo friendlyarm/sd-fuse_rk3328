@@ -6,7 +6,7 @@ set -eu
 	exit 1
 }
 
-true ${SOC:=rk3399}
+true ${SOC:=rk3328}
 ROOTFS_DIR=$1
 
 MODULES_DIR=./lib/modules/4.4.179

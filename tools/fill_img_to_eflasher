@@ -108,7 +108,7 @@ rm -rf ${MNT}/${TARGET_OS}/*
 echo "copying ${OS_IMAGES_DIR}/* to ${MNT}/${TARGET_OS} ..."
 (cd ${OS_IMAGES_DIR} && find . -maxdepth 1 -type f -exec cp {} ${MNT}/${TARGET_OS} \;)
 
-# RK3399: 
+# rk3328: 
 #     emmc boot: need parameter.txt, do not need partmap.txt
 #     sdraw: all need parameter.txt and partmap.txt
 (cd ${MNT}/${TARGET_OS} && {

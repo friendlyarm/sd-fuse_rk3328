@@ -18,7 +18,7 @@ if [ $# -ne 2 ]; then
 	exit 1
 fi
 
-cp -f $1/rk3399_loader_v1.22.119.bin $2/MiniLoaderAll.bin
+cp -f $1/rk3328_loader_v1.16.249.bin $2/MiniLoaderAll.bin
 cp -f $1/uboot.img $2/
 cp -f $1/trust.img $2/
 

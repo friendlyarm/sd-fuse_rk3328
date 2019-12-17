@@ -7,7 +7,7 @@ set -eu
 }
 
 TOP=$PWD
-true ${SOC:=rk3399}
+true ${SOC:=rk3328}
 KIMG=kernel.img
 KDTB=resource.img
 OUT=${PWD}/out
