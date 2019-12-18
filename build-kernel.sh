@@ -28,7 +28,7 @@ KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
 KERNEL_BRANCH=nanopi4-linux-v4.4.y
 
 ARCH=arm64
-KCFG=nanopi4_linux_defconfig
+KCFG=nanopi-r2_linux_defconfig
 KIMG=kernel.img
 KDTB=resource.img
 KALL=nanopi4-images

@@ -19,7 +19,7 @@ true ${MKFS:="${TOP}/tools/make_ext4fs"}
 
 true ${SOC:=rk3328}
 ARCH=arm64
-KCFG=nanopi4_linux_defconfig
+KCFG=nanopi-r2_linux_defconfig
 KIMG=kernel.img
 KDTB=resource.img
 KALL=nanopi4-images
