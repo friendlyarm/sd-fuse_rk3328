@@ -9,7 +9,7 @@ set -eu
 true ${SOC:=rk3328}
 ROOTFS_DIR=$1
 
-MODULES_DIR=./lib/modules/4.4.179
+MODULES_DIR=./lib/modules/5.4.12
 (cd $ROOTFS_DIR && {
     for f in `find ${MODULES_DIR} -name *.ko`; do
         ko=${MODULES_DIR}/`basename ${f}`

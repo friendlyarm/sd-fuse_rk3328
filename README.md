@@ -108,7 +108,7 @@ tar xzf friendlydesktop-arm64-images.tgz
 Build kernel:
 ```
 cd sd-fuse_rk3328
-git clone https://github.com/friendlyarm/kernel-rockchip --depth 1 -b nanopi4-linux-v4.4.y out/kernel-rk3328
+git clone https://github.com/friendlyarm/kernel-rockchip --depth 1 -b nanopi-r2-v5.4.y out/kernel-rk3328
 # lubuntu
 ./build-kernel.sh lubuntu
 

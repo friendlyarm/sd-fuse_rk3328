@@ -23,7 +23,14 @@ TARGET_OS=$6
 # kernel bin
 KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 (cd ${KERNEL_DIR} && {
-	cp ${KIMG} ${KDTB} ${TOP}/${TARGET_OS}/
+    # gen kernel.img
+    ${TOP}/tools/mkkrnlimg arch/arm64/boot/Image ${KIMG}
+
+    # gen resource.img
+    ${TOP}/tools/resource_tool --dtbname arch/arm64/boot/dts/rockchip/rk3328-nanopi*-rev*.dtb \
+            ${TOP}/prebuilt/boot/logo.bmp ${TOP}/prebuilt/boot/logo_kernel.bmp
+
+    cp ${KIMG} ${KDTB} ${TOP}/${TARGET_OS}/
 })
 
 # rootfs
