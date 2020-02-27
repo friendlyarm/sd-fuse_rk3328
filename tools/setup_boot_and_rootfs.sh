@@ -37,6 +37,13 @@ KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 rm -rf ${ROOTFS_DIR}/lib/modules/*
 cp -af ${KMODULES_OUTDIR}/* ${ROOTFS_DIR}
 
+# 3rd drivers
+if [ -d "${PREBUILT}/kernel-module/5.4.22" ]; then
+    if [ -d ${ROOTFS_DIR}/lib/modules/5.4.22 ]; then
+        cp -af ${PREBUILT}/kernel-module/5.4.22/* ${ROOTFS_DIR}/lib/modules/5.4.22/
+    fi
+fi
+
 # firmware
 if [ ! -d ${ROOTFS_DIR}/system/etc/firmware ]; then
 	tar xzf ${PREBUILT}/firmware/system.tgz -C ${ROOTFS_DIR}/

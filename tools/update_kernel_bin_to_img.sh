@@ -59,6 +59,12 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
         exit 1
     fi
     cp -af ${OUT}/rootfs_mnt/* ${OUT}/rootfs_new/
+    # 3rd drives
+    if [ -d "${PREBUILT}/kernel-module/5.4.22" ]; then
+        if [ -d ${OUT}/rootfs_new/lib/modules/5.4.22 ]; then
+            cp -af ${PREBUILT}/kernel-module/5.4.22/* ${OUT}/rootfs_new/lib/modules/5.4.22/
+        fi
+    fi
     umount ${OUT}/rootfs_mnt
     rm -rf ${OUT}/rootfs_mnt
     rm -f ${TARGET_OS}/r.img
