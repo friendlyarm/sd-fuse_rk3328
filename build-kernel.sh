@@ -26,6 +26,11 @@ true ${KERNEL_LOGO:=}
 
 KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
 KERNEL_BRANCH=nanopi-r2-v5.4.y
+KERNEL_VER=5.4.22
+
+declare -a KERNEL_3RD_DRIVERS=("https://github.com/friendlyarm/rtl8821CU")
+declare -a KERNEL_3RD_DRIVER_BRANCHES=("nanopi-r2")
+declare -a KERNEL_3RD_DRIVER_NAME=("rtl8821CU")
 
 ARCH=arm64
 KCFG=nanopi-r2_linux_defconfig
@@ -178,6 +183,28 @@ if [ $? -ne 0 ]; then
 	echo "failed to build kernel modules."
         exit 1
 fi
+for (( i=0; i<${#KERNEL_3RD_DRIVERS[@]}; i++ ));
+do
+	(cd ${OUT} && {
+		if [ ! -d ${KERNEL_3RD_DRIVER_NAME[$i]} ]; then
+			git clone ${KERNEL_3RD_DRIVERS[$i]} -b ${KERNEL_3RD_DRIVER_BRANCHES[$i]} ${KERNEL_3RD_DRIVER_NAME[$i]}
+		else
+			(cd ${KERNEL_3RD_DRIVER_NAME[$i]} && {
+				make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y clean
+			})
+		fi
+		(cd ${KERNEL_3RD_DRIVER_NAME[$i]} && {
+			make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y -j$(nproc)
+			if [ $? -ne 0 ]; then
+				echo "failed to build 3rd kernel modules: ${KERNEL_3RD_DRIVER_NAME[$i]}"
+				exit 1
+			fi
+			${CROSS_COMPILE}strip --strip-unneeded rtl8821CU.ko
+			cp rtl8821CU.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+		})
+	})
+
+done
 
 if [ ! -d ${KMODULES_OUTDIR}/lib ]; then
 	echo "not found kernel modules."
