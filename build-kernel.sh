@@ -26,7 +26,6 @@ true ${KERNEL_LOGO:=}
 
 KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
 KERNEL_BRANCH=nanopi-r2-v5.4.y
-KERNEL_VER=5.4.22
 
 declare -a KERNEL_3RD_DRIVERS=("https://github.com/friendlyarm/rtl8821CU")
 declare -a KERNEL_3RD_DRIVER_BRANCHES=("nanopi-r2")
@@ -183,6 +182,8 @@ if [ $? -ne 0 ]; then
 	echo "failed to build kernel modules."
         exit 1
 fi
+
+KERNEL_VER=`make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} kernelrelease`
 for (( i=0; i<${#KERNEL_3RD_DRIVERS[@]}; i++ ));
 do
 	(cd ${OUT} && {
