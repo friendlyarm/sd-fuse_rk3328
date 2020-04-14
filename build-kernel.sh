@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eu
+set -x
 
 # Copyright (C) Guangzhou FriendlyARM Computer Tech. Co., Ltd.
 # (http://www.friendlyarm.com)
@@ -27,9 +28,10 @@ true ${KERNEL_LOGO:=}
 KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
 KERNEL_BRANCH=nanopi-r2-v5.4.y
 
-declare -a KERNEL_3RD_DRIVERS=("https://github.com/friendlyarm/rtl8821CU")
-declare -a KERNEL_3RD_DRIVER_BRANCHES=("nanopi-r2")
-declare -a KERNEL_3RD_DRIVER_NAME=("rtl8821CU")
+declare -a KERNEL_3RD_DRIVERS=("https://github.com/friendlyarm/rtl8821CU" "https://github.com/friendlyarm/rtl8822bu
+")
+declare -a KERNEL_3RD_DRIVER_BRANCHES=("nanopi-r2" "nanopi-r2")
+declare -a KERNEL_3RD_DRIVER_NAME=("rtl8821CU" "rtl8822bu")
 
 ARCH=arm64
 KCFG=nanopi-r2_linux_defconfig
@@ -200,12 +202,25 @@ do
 				echo "failed to build 3rd kernel modules: ${KERNEL_3RD_DRIVER_NAME[$i]}"
 				exit 1
 			fi
-			${CROSS_COMPILE}strip --strip-unneeded rtl8821CU.ko
-			cp rtl8821CU.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+			${CROSS_COMPILE}strip --strip-unneeded ${KERNEL_3RD_DRIVER_NAME[$i]}.ko
+			cp ${KERNEL_3RD_DRIVER_NAME[$i]}.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
 		})
 	})
 
 done
+
+# wireguard
+(cd ${OUT} && {
+    if [ ! -d wireguard ]; then
+        git clone https://git.zx2c4.com/wireguard-linux-compat -b master wireguard
+        # old version# git clone https://git.zx2c4.com/wireguard-monolithic-historical -b master wireguard
+    fi
+    (cd wireguard/src && {
+        make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KERNELDIR=${KERNEL_SRC}
+        ${CROSS_COMPILE}strip --strip-unneeded wireguard.ko
+        cp wireguard.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+    })
+})
 
 if [ ! -d ${KMODULES_OUTDIR}/lib ]; then
 	echo "not found kernel modules."
