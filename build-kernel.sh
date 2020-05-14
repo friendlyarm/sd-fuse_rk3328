@@ -1,6 +1,5 @@
 #!/bin/bash
 set -eu
-set -x
 
 # Copyright (C) Guangzhou FriendlyARM Computer Tech. Co., Ltd.
 # (http://www.friendlyarm.com)
@@ -28,10 +27,9 @@ true ${KERNEL_LOGO:=}
 KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
 KERNEL_BRANCH=nanopi-r2-v5.4.y
 
-declare -a KERNEL_3RD_DRIVERS=("https://github.com/friendlyarm/rtl8821CU" "https://github.com/friendlyarm/rtl8822bu
-")
-declare -a KERNEL_3RD_DRIVER_BRANCHES=("nanopi-r2" "nanopi-r2")
-declare -a KERNEL_3RD_DRIVER_NAME=("rtl8821CU" "rtl8822bu")
+declare -a KERNEL_3RD_DRIVERS=("https://github.com/friendlyarm/rtl8821CU" "https://github.com/friendlyarm/rtl8822bu" "https://github.com/friendlyarm/rtl8812au")
+declare -a KERNEL_3RD_DRIVER_BRANCHES=("nanopi-r2" "nanopi-r2" "nanopi-r2")
+declare -a KERNEL_3RD_DRIVER_NAME=("rtl8821CU" "rtl8822bu" "rtl8812au")
 
 ARCH=arm64
 KCFG=nanopi-r2_linux_defconfig
