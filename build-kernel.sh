@@ -184,41 +184,44 @@ if [ $? -ne 0 ]; then
 fi
 
 KERNEL_VER=`make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} kernelrelease`
-for (( i=0; i<${#KERNEL_3RD_DRIVERS[@]}; i++ ));
-do
-	(cd ${OUT} && {
-		if [ ! -d ${KERNEL_3RD_DRIVER_NAME[$i]} ]; then
-			git clone ${KERNEL_3RD_DRIVERS[$i]} -b ${KERNEL_3RD_DRIVER_BRANCHES[$i]} ${KERNEL_3RD_DRIVER_NAME[$i]}
-		else
-			(cd ${KERNEL_3RD_DRIVER_NAME[$i]} && {
-				make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y clean
-			})
-		fi
-		(cd ${KERNEL_3RD_DRIVER_NAME[$i]} && {
-			make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y -j$(nproc)
-			if [ $? -ne 0 ]; then
-				echo "failed to build 3rd kernel modules: ${KERNEL_3RD_DRIVER_NAME[$i]}"
-				exit 1
-			fi
-			${CROSS_COMPILE}strip --strip-unneeded ${KERNEL_3RD_DRIVER_NAME[$i]}.ko
-			cp ${KERNEL_3RD_DRIVER_NAME[$i]}.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
-		})
-	})
+true ${BUILD_THIRD_PARTY_DRIVER:=1}
+if [ ${BUILD_THIRD_PARTY_DRIVER} -eq 1 ]; then
+    for (( i=0; i<${#KERNEL_3RD_DRIVERS[@]}; i++ ));
+    do
+        (cd ${OUT} && {
+            if [ ! -d ${KERNEL_3RD_DRIVER_NAME[$i]} ]; then
+                git clone ${KERNEL_3RD_DRIVERS[$i]} -b ${KERNEL_3RD_DRIVER_BRANCHES[$i]} ${KERNEL_3RD_DRIVER_NAME[$i]}
+            else
+                (cd ${KERNEL_3RD_DRIVER_NAME[$i]} && {
+                    make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y clean
+                })
+            fi
+            (cd ${KERNEL_3RD_DRIVER_NAME[$i]} && {
+                make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y -j$(nproc)
+                if [ $? -ne 0 ]; then
+                    echo "failed to build 3rd kernel modules: ${KERNEL_3RD_DRIVER_NAME[$i]}"
+                    exit 1
+                fi
+                ${CROSS_COMPILE}strip --strip-unneeded ${KERNEL_3RD_DRIVER_NAME[$i]}.ko
+                cp ${KERNEL_3RD_DRIVER_NAME[$i]}.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+            })
+        })
 
-done
+    done
 
-# wireguard
-(cd ${OUT} && {
-    if [ ! -d wireguard ]; then
-        git clone https://git.zx2c4.com/wireguard-linux-compat -b master wireguard
-        # old version# git clone https://git.zx2c4.com/wireguard-monolithic-historical -b master wireguard
-    fi
-    (cd wireguard/src && {
-        make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KERNELDIR=${KERNEL_SRC}
-        ${CROSS_COMPILE}strip --strip-unneeded wireguard.ko
-        cp wireguard.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+    # wireguard
+    (cd ${OUT} && {
+        if [ ! -d wireguard ]; then
+            git clone https://git.zx2c4.com/wireguard-linux-compat -b master wireguard
+            # old version# git clone https://git.zx2c4.com/wireguard-monolithic-historical -b master wireguard
+        fi
+        (cd wireguard/src && {
+            make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KERNELDIR=${KERNEL_SRC}
+            ${CROSS_COMPILE}strip --strip-unneeded wireguard.ko
+            cp wireguard.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+        })
     })
-})
+fi
 
 if [ ! -d ${KMODULES_OUTDIR}/lib ]; then
 	echo "not found kernel modules."
