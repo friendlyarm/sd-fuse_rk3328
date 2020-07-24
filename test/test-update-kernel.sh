@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -eu
 
 HTTP_SERVER=112.124.9.243
 KERNEL_URL=https://github.com/friendlyarm/kernel-rockchip
@@ -23,7 +23,7 @@ cd sd-fuse_rk3328
 if [ -f ../../friendlycore-arm64-images.tgz ]; then
 	tar xvzf ../../friendlycore-arm64-images.tgz
 else
-	wget http://${HTTP_SERVER}/dvdfiles/rk3328/images-for-eflasher/friendlycore-arm64-images.tgz
+	wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-arm64-images.tgz
 fi
 
 if [ -f ../../kernel-rk3328.tgz ]; then

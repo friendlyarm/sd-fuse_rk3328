@@ -35,7 +35,7 @@ First, download and unpack:
 ```
 git clone https://github.com/friendlyarm/sd-fuse_rk3328.git
 cd sd-fuse_rk3328
-wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-arm64-images.tgz
+wget http://112.124.9.243/dvdfiles/RK3328/images-for-eflasher/friendlycore-arm64-images.tgz
 tar xvzf friendlycore-arm64-images.tgz
 ```
 Now,  Change something under the friendlycore-arm64 directory, 
