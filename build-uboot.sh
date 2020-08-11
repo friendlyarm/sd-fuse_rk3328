@@ -22,7 +22,7 @@ true ${SOC:=rk3328}
 true ${DISABLE_MKIMG:=0}
 
 UBOOT_REPO=https://github.com/friendlyarm/uboot-rockchip
-UBOOT_BRANCH=nanopi4-v2014.10_oreo
+UBOOT_BRANCH=nanopi-r2-v2014.10
 
 ARCH=arm64
 UCFG=nanopi_r2_defconfig
@@ -159,7 +159,7 @@ fi
 echo "building uboot ok."
 cd ${TOPPATH}
 download_img ${TARGET_OS}
-./tools/update_uboot_bin.sh ${OUT} ${UBOOT_SRC} ${TOPPATH}/${TARGET_OS}
+./tools/update_uboot_bin.sh ${UBOOT_SRC} ${TOPPATH}/${TARGET_OS}
 if [ $? -eq 0 ]; then
     echo "updating ${TARGET_OS}/bootloader.img ok."
 else
