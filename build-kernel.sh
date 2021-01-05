@@ -25,14 +25,14 @@ true ${LOGO:=}
 true ${KERNEL_LOGO:=}
 
 KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
-KERNEL_BRANCH=nanopi4-linux-v4.4.y
+KERNEL_BRANCH=nanopi4-v4.19.y
 
 ARCH=arm64
-KCFG=nanopi-r2_linux_defconfig
+KCFG=nanopi4_linux_defconfig
 KIMG=kernel.img
 KDTB=resource.img
 KALL=nanopi4-images
-CROSS_COMPILER=aarch64-linux-gnu-
+CROSS_COMPILE=aarch64-linux-gnu-
 
 # 
 # kernel logo:
@@ -152,7 +152,7 @@ export PATH=/opt/FriendlyARM/toolchain/6.4-aarch64/bin/:$PATH
 cd ${KERNEL_SRC}
 make distclean
 touch .scmversion
-make ARCH=${ARCH} ${KCFG}
+make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} ${KCFG}
 if [ $? -ne 0 ]; then
 	echo "failed to build kernel."
 	exit 1
@@ -163,7 +163,7 @@ if [ x"${TARGET_OS}" = x"eflasher" ]; then
     sed -i "s/\(.*PROT_MT_SLOT\).*/# \1 is not set/g" .config
 fi
 
-make ARCH=${ARCH} ${KALL} -j$(nproc)
+make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} ${KALL} -j$(nproc)
 if [ $? -ne 0 ]; then
         echo "failed to build kernel."
         exit 1
@@ -171,20 +171,20 @@ fi
 
 rm -rf ${KMODULES_OUTDIR}
 mkdir -p ${KMODULES_OUTDIR}
-make ARCH=${ARCH} INSTALL_MOD_PATH=${KMODULES_OUTDIR} modules -j$(nproc)
+make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} INSTALL_MOD_PATH=${KMODULES_OUTDIR} modules -j$(nproc)
 if [ $? -ne 0 ]; then
 	echo "failed to build kernel modules."
         exit 1
 fi
-make ARCH=${ARCH} INSTALL_MOD_PATH=${KMODULES_OUTDIR} modules_install
+make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} INSTALL_MOD_PATH=${KMODULES_OUTDIR} modules_install
 if [ $? -ne 0 ]; then
 	echo "failed to build kernel modules."
         exit 1
 fi
-KREL=`make kernelrelease`
+KREL=`make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} kernelrelease`
 rm -rf ${KMODULES_OUTDIR}/lib/modules/${KREL}/kernel/drivers/gpu/arm/mali400/
 [ ! -f "${KMODULES_OUTDIR}/lib/modules/${KREL}/modules.dep" ] && depmod -b ${KMODULES_OUTDIR} -E Module.symvers -F System.map -w ${KREL}
-(cd ${KMODULES_OUTDIR} && find . -name \*.ko | xargs ${CROSS_COMPILER}strip --strip-unneeded)
+(cd ${KMODULES_OUTDIR} && find . -name \*.ko | xargs ${CROSS_COMPILE}strip --strip-unneeded)
 
 
 if [ ! -d ${KMODULES_OUTDIR}/lib ]; then

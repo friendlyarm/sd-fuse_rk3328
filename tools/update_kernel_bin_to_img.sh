@@ -19,11 +19,9 @@ true ${MKFS:="${TOP}/tools/make_ext4fs"}
 
 true ${SOC:=rk3328}
 ARCH=arm64
-KCFG=nanopi-r2_linux_defconfig
 KIMG=kernel.img
 KDTB=resource.img
 KALL=nanopi4-images
-CROSS_COMPILER=aarch64-linux-gnu-
 # ${OUT} ${KERNEL_SRC} ${TOPPATH}/${TARGET_OS} ${TOPPATH}/prebuilt
 if [ $# -ne 4 ]; then
         echo "bug: missing arg, $0 needs four args"
@@ -60,7 +58,7 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
     # Processing rootfs_new
     # Here s5pxx18 is different from h3/h5
 	
-    cp -af ${KMODULES_OUTDIR}/lib/firmware/* ${OUT}/rootfs_new/lib/firmware/
+    [ -d ${KMODULES_OUTDIR}/lib/firmware ] && cp -af ${KMODULES_OUTDIR}/lib/firmware/* ${OUT}/rootfs_new/lib/firmware/
     rm -rf ${OUT}/rootfs_new/lib/modules/*
     cp -af ${KMODULES_OUTDIR}/lib/modules/* ${OUT}/rootfs_new/lib/modules/
 
@@ -92,8 +90,8 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
         ${TOP}/tools/generate-partmap-txt.sh ${IMG_SIZE} ${TARGET_OS}
     fi
 else 
-	echo "not found ${TARGET_OS}/rootfs.img"
-	exit 1
+    echo "not found ${TARGET_OS}/rootfs.img"
+    exit 1
 fi
 
 
