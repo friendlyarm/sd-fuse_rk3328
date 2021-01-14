@@ -6,7 +6,6 @@ set -eu
 	exit 1
 }
 
-true ${SOC:=rk3328}
 ROOTFS_DIR=$1
 
 (cd ${ROOTFS_DIR}/lib/modules/ && {
