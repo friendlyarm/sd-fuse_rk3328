@@ -14,7 +14,7 @@ diff ~/before.txt ~/after.txt
 
 ## Build friendlycore bootable SD card
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328.git
+git clone https://github.com/friendlyarm/sd-fuse_rk3328.git -b kernel-v5.4.y
 cd sd-fuse_rk3328
 sudo ./fusing.sh /dev/sdX friendlycore-arm64
 ```
@@ -33,7 +33,7 @@ sudo ./fusing.sh /dev/sdX friendlycore-arm64
 ## Build an sd card image
 First, download and unpack:
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328.git
+git clone https://github.com/friendlyarm/sd-fuse_rk3328.git -b kernel-v5.4.y
 cd sd-fuse_rk3328
 wget http://112.124.9.243/dvdfiles/RK3328/images-for-eflasher/friendlycore-arm64-images.tgz
 tar xvzf friendlycore-arm64-images.tgz
