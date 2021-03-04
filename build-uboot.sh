@@ -22,11 +22,7 @@ true ${SOC:=rk3328}
 true ${DISABLE_MKIMG:=0}
 
 UBOOT_REPO=https://github.com/friendlyarm/uboot-rockchip
-UBOOT_BRANCH=nanopi-r2-v2014.10
-
-ARCH=arm64
-UCFG=nanopi_r2_defconfig
-CROSS_COMPILE=aarch64-linux-
+UBOOT_BRANCH=nanopi4-v2017.09
 
 TOPPATH=$PWD
 OUT=$TOPPATH/out
@@ -63,8 +59,6 @@ fi
 # ----------------------------------------------------------
 # Get target OS
 true ${TARGET_OS:=${1,,}}
-RKPARAM=./${TARGET_OS}/parameter.txt
-RKPARAM2=./${TARGET_OS}/param4sd.txt
 
 case ${TARGET_OS} in
 friendlycore* | friendlywrt | eflasher)
@@ -82,7 +76,14 @@ esac
 # fi
 
 download_img() {
-    if [ -f "${RKPARAM}" -o -f "${RKPARAM2}" ]; then
+    local RKPARAM=$(dirname $0)/${1}/parameter.txt
+    case ${1} in
+    eflasher)
+        RKPARAM=$(dirname $0)/${1}/partmap.txt
+        ;;
+    esac
+
+    if [ -f "${RKPARAM}" ]; then
         echo ""
     else
 	ROMFILE=`./tools/get_pkg_filename.sh ${1}`
@@ -127,9 +128,9 @@ fi
 
 export PATH=/opt/FriendlyARM/toolchain/6.4-aarch64/bin/:$PATH
 
-
 if ! [ -x "$(command -v simg2img)" ]; then
     sudo apt install android-tools-fsutils
+    # 20.04: sudo apt-get install android-sdk-libsparse-utils android-sdk-ext4-utils
 fi
 
 if ! [ -x "$(command -v swig)" ]; then
@@ -144,8 +145,7 @@ fi
 
 cd ${UBOOT_SRC}
 make distclean
-make CROSS_COMPILE=${CROSS_COMPILE} ${UCFG}
-make CROSS_COMPILE=${CROSS_COMPILE} -j$(nproc)
+./make.sh nanopi_r2
 
 if [ $? -ne 0 ]; then
 	echo "failed to build uboot."

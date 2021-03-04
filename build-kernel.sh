@@ -37,6 +37,14 @@ ARCH=arm64
 KCFG=nanopi-r2_linux_defconfig
 CROSS_COMPILE=aarch64-linux-gnu-
 
+# 
+# kernel logo:
+# 
+# convert logo.jpg -type truecolor /tmp/logo.bmp 
+# convert logo.jpg -type truecolor /tmp/logo_kernel.bmp
+# LOGO=/tmp/logo.bmp
+# KERNEL_LOGO=/tmp/logo_kernel.bmp
+#
 
 TOPPATH=$PWD
 OUT=$TOPPATH/out
@@ -55,8 +63,10 @@ function usage() {
        echo "# or clone your local repo:"
        echo "    git clone git@192.168.1.2:/path/to/linux.git --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}"
        echo "# then"
-       echo "    ./build-kernel.sh eflasher"
-       echo "    ./build-kernel.sh friendlycore-arm64"
+       echo "    convert files/logo.jpg -type truecolor /tmp/logo.bmp"
+       echo "    convert files/logo.jpg -type truecolor /tmp/logo_kernel.bmp"
+       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh eflasher"
+       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh friendlycore-arm64"
        echo "    ./mk-emmc-image.sh friendlycore-arm64"
        echo "# also can do:"
        echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh friendlycore-arm64"
@@ -84,9 +94,14 @@ esac
 
 download_img() {
     local RKPARAM=$(dirname $0)/${1}/parameter.txt
-    local RKPARAM2=$(dirname $0)/${1}/param4sd.txt
-    if [ -f "${RKPARAM}" -o -f "${RKPARAM2}" ]; then
-	echo "${1} found."
+    case ${1} in
+    eflasher)
+        RKPARAM=$(dirname $0)/${1}/partmap.txt
+        ;;
+    esac
+    
+    if [ -f "${RKPARAM}" ]; then
+	    echo "${1} found."
     else
 	ROMFILE=`./tools/get_pkg_filename.sh ${1}`
         cat << EOF
@@ -166,7 +181,6 @@ fi
 
 rm -rf ${KMODULES_OUTDIR}
 mkdir -p ${KMODULES_OUTDIR}
-
 make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} INSTALL_MOD_PATH=${KMODULES_OUTDIR} modules -j$(nproc)
 if [ $? -ne 0 ]; then
 	echo "failed to build kernel modules."
@@ -179,6 +193,7 @@ if [ $? -ne 0 ]; then
 fi
 
 KERNEL_VER=`make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} kernelrelease`
+true ${BUILD_THIRD_PARTY_DRIVER:=1}
 if [ ${BUILD_THIRD_PARTY_DRIVER} -eq 1 ]; then
     for (( i=0; i<${#KERNEL_3RD_DRIVERS[@]}; i++ ));
     do
@@ -222,11 +237,11 @@ if [ ${MK_HEADERS_DEB} -eq 1 ]; then
         find usr/src/linux-headers*/scripts/ \
             -name "*.o" -o -name ".*.cmd" | xargs rm -rf
 
-        HEADERS_SCRIPT_DIR=${TOPPATH}/files/linux-headers-5.4-bin_arm64/scripts
+        HEADERS_SCRIPT_DIR=${TOPPATH}/files/linux-headers-5.10-bin_arm64/scripts
         if [ -d ${HEADERS_SCRIPT_DIR} ]; then
             cp -avf ${HEADERS_SCRIPT_DIR}/* ./usr/src/linux-headers-*${KERNEL_VER}*/scripts/
             if [ $? -ne 0 ]; then
-                echo "failed to copy bin file to /usr/src/linux-headers-5.4.y."
+                echo "failed to copy bin file to /usr/src/linux-headers-5.10.y."
                 exit 1
             fi
         else

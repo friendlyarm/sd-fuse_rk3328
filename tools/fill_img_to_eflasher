@@ -39,21 +39,21 @@ if [ $# -eq 4 ]; then
 else
 	case ${TARGET_OS} in
 	buildroot)
-	        RAW_FILE=${SOC}-eflasher-buildroot-linux-4.4-arm64-$(date +%Y%m%d).img ;;
+	        RAW_FILE=${SOC}-eflasher-buildroot-linux-5.10-arm64-$(date +%Y%m%d).img ;;
 	debian)
-		RAW_FILE=${SOC}-eflasher-debian9-4.4-armhf-$(date +%Y%m%d).img ;;
+		RAW_FILE=${SOC}-eflasher-debian9-5.10-armhf-$(date +%Y%m%d).img ;;
 	android7)
 	        RAW_FILE=${SOC}-eflasher-android7-$(date +%Y%m%d).img ;;
 	android8)
 	        RAW_FILE=${SOC}-eflasher-android8-$(date +%Y%m%d).img ;;
 	friendlycore-arm64)
-	        RAW_FILE=${SOC}-eflasher-friendlycore-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img ;;
+	        RAW_FILE=${SOC}-eflasher-friendlycore-${CODENAME}-5.10-arm64-$(date +%Y%m%d).img ;;
 	friendlywrt)
-	        RAW_FILE=${SOC}-eflasher-friendlywrt-4.4-$(date +%Y%m%d).img ;;
+	        RAW_FILE=${SOC}-eflasher-friendlywrt-5.10-$(date +%Y%m%d).img ;;
 	friendlydesktop-arm64)
-	        RAW_FILE=${SOC}-eflasher-friendlydesktop-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img ;;
+	        RAW_FILE=${SOC}-eflasher-friendlydesktop-${CODENAME}-5.10-arm64-$(date +%Y%m%d).img ;;
 	lubuntu)
-	        RAW_FILE=${SOC}-eflasher-lubuntu-desktop-xenial-4.4-armhf-$(date +%Y%m%d).img ;;
+	        RAW_FILE=${SOC}-eflasher-lubuntu-desktop-xenial-5.10-armhf-$(date +%Y%m%d).img ;;
 	eflasher)
 	        RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img ;;
 	*)
@@ -107,17 +107,6 @@ mkdir -p ${MNT}/${TARGET_OS}
 rm -rf ${MNT}/${TARGET_OS}/*
 echo "copying ${OS_IMAGES_DIR}/* to ${MNT}/${TARGET_OS} ..."
 (cd ${OS_IMAGES_DIR} && find . -maxdepth 1 -type f -exec cp {} ${MNT}/${TARGET_OS} \;)
-
-# rk3328: 
-#     emmc boot: need parameter.txt, do not need partmap.txt
-#     sdraw: all need parameter.txt and partmap.txt
-(cd ${MNT}/${TARGET_OS} && {
-	if [ -f emmc-boot/parameter.txt ]; then 
-		rm -f partmap.txt
-		rm -f parameter.txt
-		cp -f emmc-boot/parameter.txt .
-	fi
-})
 
 umount ${MNT}
 losetup -d ${DEV}

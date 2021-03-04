@@ -77,25 +77,25 @@ if [ $# -eq 2 ]; then
 else
 	case ${TARGET_OS} in
 	friendlycore-arm64)
-		RAW_FILE=${SOC}-sd-friendlycore-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlycore-${CODENAME}-5.10-arm64-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
 	friendlywrt)
-		RAW_FILE=${SOC}-sd-friendlywrt-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlywrt-${CODENAME}-5.10-arm64-$(date +%Y%m%d).img
 		RAW_SIZE_MB=1000 ;;
 	friendlydesktop-arm64)
-		RAW_FILE=${SOC}-sd-friendlydesktop-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlydesktop-${CODENAME}-5.10-arm64-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
 	debian)
-		RAW_FILE=${SOC}-sd-debian9-4.4-armhf-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-debian9-5.10-armhf-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
 	lubuntu)
-		RAW_FILE=${SOC}-sd-lubuntu-desktop-xenial-4.4-armhf-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-lubuntu-desktop-xenial-5.10-armhf-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
 	eflasher)
 		RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
 	buildroot)
-	        RAW_FILE=${SOC}-sd-buildroot-linux-4.4-arm64-$(date +%Y%m%d).img
+	        RAW_FILE=${SOC}-sd-buildroot-linux-5.10-arm64-$(date +%Y%m%d).img
 	        RAW_SIZE_MB=4000 ;;
 	*)
 		RAW_FILE=${SOC}-${TARGET_OS}-sd4g-$(date +%Y%m%d).img
