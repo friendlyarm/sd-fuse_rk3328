@@ -26,8 +26,8 @@ true ${KERNEL_LOGO:=}
 true ${MK_HEADERS_DEB:=0}
 true ${BUILD_THIRD_PARTY_DRIVER:=1}
 
-KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
-KERNEL_BRANCH=nanopi-r2-v5.4.y
+KERNEL_REPO=git@192.168.1.5:/devel/kernel/linux.git
+KERNEL_BRANCH=nanopi-r2-v5.4.y-tftlcd13
 
 declare -a KERNEL_3RD_DRIVERS=("https://github.com/friendlyarm/rtl8821CU" "https://github.com/friendlyarm/rtl8822bu" "https://github.com/friendlyarm/rtl8812au")
 declare -a KERNEL_3RD_DRIVER_BRANCHES=("nanopi-r2" "nanopi-r2" "nanopi-r2")
