@@ -12,7 +12,6 @@ SOC=$2
 TARGET_OS=$3
 
 OS_IMAGES_DIR=${TOPPATH}/${TARGET_OS}
-CODENAME=bionic
 
 [ -z ${EFLASHER_RAW_IMG} -o -z ${SOC} -o -z ${TARGET_OS} ] && {
         echo "Usage: $0 <image name> <plat>"
@@ -39,8 +38,6 @@ friendlycore-lite-focal-arm64)
         RAW_FILE=${SOC}-eflasher-friendlycore-lite-focal-5.10-arm64-$(date +%Y%m%d).img ;;
 friendlywrt)
         RAW_FILE=${SOC}-eflasher-friendlywrt-5.10-$(date +%Y%m%d).img ;;
-eflasher)
-        RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img ;;
 *)
         RAW_FILE=${SOC}-eflasher-${TARGET_OS}-$(date +%Y%m%d).img ;;
 esac
