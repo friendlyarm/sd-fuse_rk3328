@@ -38,17 +38,17 @@ echo "uboot src: ${UBOOT_SRC}"
 # apt-get install swig python-dev python3-dev
 
 function usage() {
-       echo "Usage: $0 <friendlycore-arm64|friendlywrt>"
+       echo "Usage: $0 <friendlycore-lite-focal-arm64|friendlywrt>"
        echo "# example:"
        echo "# clone uboot source from github:"
        echo "    git clone ${UBOOT_REPO} --depth 1 -b ${UBOOT_BRANCH} ${UBOOT_SRC}"
        echo "# or clone your local repo:"
        echo "    git clone git@192.168.1.2:/path/to/uboot.git --depth 1 -b ${UBOOT_BRANCH} ${UBOOT_SRC}"
        echo "# then"
-       echo "    ./build-uboot.sh friendlycore-arm64 "
-       echo "    ./mk-emmc-image.sh friendlycore-arm64 "
+       echo "    ./build-uboot.sh friendlycore-lite-focal-arm64 "
+       echo "    ./mk-emmc-image.sh friendlycore-lite-focal-arm64 "
        echo "# also can do:"
-       echo "	UBOOT_SRC=~/myuboot ./build-uboot.sh friendlycore-arm64"
+       echo "	UBOOT_SRC=~/myuboot ./build-uboot.sh friendlycore-lite-focal-arm64"
        exit 0
 }
 
@@ -88,13 +88,13 @@ download_img() {
     else
 	ROMFILE=`./tools/get_pkg_filename.sh ${1}`
         cat << EOF
-Warn: Image not found for "${1}"
+Warn: Image not found for ${1}
 ----------------
-you may download them from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
+you may download it from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
 the image files are stored in a directory called images-for-eflasher, for example:
     tar xvzf /path/to/NETDISK/images-for-eflasher/${ROMFILE}
 ----------------
-Or, download from http (Y/N)?
+Do you want to download it now via http? (Y/N):
 EOF
         while read -r -n 1 -t 3600 -s USER_REPLY; do
             if [[ ${USER_REPLY} = [Nn] ]]; then

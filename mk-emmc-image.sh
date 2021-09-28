@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu
 
 # Copyright (C) Guangzhou FriendlyARM Computer Tech. Co., Ltd.
 # (http://www.friendlyarm.com)
@@ -20,9 +21,9 @@
 function usage() {
        echo "Usage: $0 <friendlywr,friendlycore-lite-focal-arm64> [img filename] [options]"
        echo "    examples:"
-       echo "        ./mk-emmc-image.sh friendlywrt myimg-emmc.img autostart=yes"
-       echo "        ./mk-emmc-image.sh friendlywrt autostart=yes"
-       echo "        ./mk-emmc-image.sh friendlywrt"
+       echo "        ./mk-emmc-image.sh friendlycore-lite-focal-arm64 filename=myimg-emmc.img autostart=yes"
+       echo "        ./mk-emmc-image.sh friendlycore-lite-focal-arm64 autostart=yes"
+       echo "        ./mk-emmc-image.sh friendlycore-lite-focal-arm64"
        exit 0
 }
 
@@ -37,7 +38,7 @@ true ${SOC:=rk3328}
 true ${TARGET_OS:=${1,,}}
 
 case ${TARGET_OS} in
-debian* | buildroot* | android7 | android8 | friendlycore* | friendlydesktop* | lubuntu* | friendlywrt)
+friendlycore-lite-focal-arm64 | friendlywrt)
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
@@ -59,11 +60,11 @@ download_img() {
         cat << EOF
 Warn: Image not found for ${1}
 ----------------
-you may download them from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
+you may download it from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
 the image files are stored in a directory called images-for-eflasher, for example:
     tar xvzf /path/to/NETDISK/images-for-eflasher/${ROMFILE}
 ----------------
-Or, download from http (Y/N)?
+Do you want to download it now via http? (Y/N):
 EOF
         while read -r -n 1 -t 3600 -s USER_REPLY; do
             if [[ ${USER_REPLY} = [Nn] ]]; then

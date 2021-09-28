@@ -16,9 +16,9 @@ diff ~/before.txt ~/after.txt
 ```
 git clone https://github.com/friendlyarm/sd-fuse_rk3328.git
 cd sd-fuse_rk3328
-sudo ./fusing.sh /dev/sdX friendlycore-arm64
+sudo ./fusing.sh /dev/sdX friendlycore-lite-focal-arm64
 ```
-You can build the following OS: friendlycore-arm64, friendlydesktop-arm64, lubuntu, eflasher.  
+You can build the following OS: friendlycore-lite-focal-arm64, friendlywrt.  
 Because the android system has to run on the emmc, so you need to make eflasher img to install Android.  
 
 Notes:  
@@ -26,8 +26,8 @@ fusing.sh will check the local directory for a directory with the same name as O
 So you can download from the netdisk in advance, on netdisk, the images files are stored in a directory called images-for-eflasher, for example:
 ```
 cd sd-fuse_rk3328
-tar xvzf ../images-for-eflasher/friendlycore-arm64-images.tgz
-sudo ./fusing.sh /dev/sdX friendlycore-arm64
+tar xvzf ../images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
+sudo ./fusing.sh /dev/sdX friendlycore-lite-focal-arm64
 ```
 
 ## Build an sd card image
@@ -35,17 +35,17 @@ First, download and unpack:
 ```
 git clone https://github.com/friendlyarm/sd-fuse_rk3328.git
 cd sd-fuse_rk3328
-wget http://112.124.9.243/dvdfiles/RK3328/images-for-eflasher/friendlycore-arm64-images.tgz
-tar xvzf friendlycore-arm64-images.tgz
+wget http://112.124.9.243/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
+tar xvzf friendlycore-lite-focal-arm64-images.tgz
 ```
-Now,  Change something under the friendlycore-arm64 directory, 
-for example, replace the file you compiled, then build friendlycore-arm64 bootable SD card: 
+Now,  Change something under the friendlycore-lite-focal-arm64 directory, 
+for example, replace the file you compiled, then build friendlycore-lite-focal-arm64 bootable SD card: 
 ```
-sudo ./fusing.sh /dev/sdX friendlycore-arm64
+sudo ./fusing.sh /dev/sdX friendlycore-lite-focal-arm64
 ```
 or build an sd card image:
 ```
-sudo ./mk-sd-image.sh friendlycore-arm64
+sudo ./mk-sd-image.sh friendlycore-lite-focal-arm64
 ```
 The following file will be generated:  
 ```

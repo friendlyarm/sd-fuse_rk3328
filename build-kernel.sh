@@ -56,7 +56,7 @@ KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 true ${KERNEL_SRC:=${OUT}/kernel-${SOC}}
 
 function usage() {
-       echo "Usage: $0 <buildroot|friendlycore-arm64|friendlydesktop-arm64|lubuntu|friendlywrt|eflasher>"
+       echo "Usage: $0 <friendlycore-lite-focal-arm64|friendlywrt|eflasher>"
        echo "# example:"
        echo "# clone kernel source from github:"
        echo "    git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}"
@@ -66,12 +66,12 @@ function usage() {
        echo "    convert files/logo.jpg -type truecolor /tmp/logo.bmp"
        echo "    convert files/logo.jpg -type truecolor /tmp/logo_kernel.bmp"
        echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh eflasher"
-       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh friendlycore-arm64"
-       echo "    ./mk-emmc-image.sh friendlycore-arm64"
+       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh friendlycore-lite-focal-arm64"
+       echo "    ./mk-emmc-image.sh friendlycore-lite-focal-arm64"
        echo "# also can do:"
-       echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh friendlycore-arm64"
+       echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh friendlycore-lite-focal-arm64"
        echo "# other options, build kernel-headers, enable/disable 3rd drivers:"
-       echo "    MK_HEADERS_DEB=1 BUILD_THIRD_PARTY_DRIVER=0 ./build-kernel.sh friendlycore-arm64"
+       echo "    MK_HEADERS_DEB=1 BUILD_THIRD_PARTY_DRIVER=0 ./build-kernel.sh friendlycore-lite-focal-arm64"
        exit 0
 }
 
@@ -85,7 +85,7 @@ true ${TARGET_OS:=${1,,}}
 
 
 case ${TARGET_OS} in
-buildroot* | android7 | android8 | friendlycore* | friendlydesktop* | lubuntu* | friendlywrt | eflasher )
+friendlycore-lite-focal-arm64 | friendlywrt | eflasher )
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
@@ -107,11 +107,11 @@ download_img() {
         cat << EOF
 Warn: Image not found for ${1}
 ----------------
-you may download them from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
+you may download it from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
 the image files are stored in a directory called images-for-eflasher, for example:
     tar xvzf /path/to/NETDISK/images-for-eflasher/${ROMFILE}
 ----------------
-Or, download from http (Y/N)?
+Do you want to download it now via http? (Y/N):
 EOF
         while read -r -n 1 -t 3600 -s USER_REPLY; do
             if [[ ${USER_REPLY} = [Nn] ]]; then

@@ -20,11 +20,11 @@ sudo rm -rf tmp/*
 cd tmp
 git clone ../../.git sd-fuse_rk3328
 cd sd-fuse_rk3328
-if [ -f ../../friendlycore-arm64-images.tgz ]; then
-	tar xvzf ../../friendlycore-arm64-images.tgz
+if [ -f ../../friendlycore-lite-focal-arm64-images.tgz ]; then
+	tar xvzf ../../friendlycore-lite-focal-arm64-images.tgz
 else
-	wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-arm64-images.tgz
-    tar xvzf friendlycore-arm64-images.tgz
+	wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
+    tar xvzf friendlycore-lite-focal-arm64-images.tgz
 fi
 
 if [ -f ../../kernel-rk3328.tgz ]; then
@@ -33,5 +33,5 @@ else
 	git clone ${KERNEL_URL} --depth 1 -b ${KERNEL_BRANCH} kernel-rk3328
 fi
 
-BUILD_THIRD_PARTY_DRIVER=0 KERNEL_SRC=$PWD/kernel-rk3328 ./build-kernel.sh friendlycore-arm64
-sudo ./mk-sd-image.sh friendlycore-arm64
+BUILD_THIRD_PARTY_DRIVER=0 KERNEL_SRC=$PWD/kernel-rk3328 ./build-kernel.sh friendlycore-lite-focal-arm64
+sudo ./mk-sd-image.sh friendlycore-lite-focal-arm64
