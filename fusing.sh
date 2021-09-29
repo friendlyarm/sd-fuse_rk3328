@@ -127,6 +127,8 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+partprobe /dev/${DEV_NAME} -s 2>/dev/null
+
 echo "---------------------------------"
 echo "All done."
 
