@@ -47,7 +47,8 @@ eflasher)
 	;;
 *)
 	echo "Error: Unsupported target OS: ${TARGET_OS}"
-	exit -1;;
+	exit -1
+	;;
 esac
 	 
 if [ $# -eq 2 ]; then

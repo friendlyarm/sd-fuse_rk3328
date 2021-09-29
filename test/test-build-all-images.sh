@@ -29,11 +29,11 @@ tar xzf emmc-flasher-images.tgz
 
 
 ./mk-sd-image.sh friendlycore-lite-focal-arm64
-sudo ./mk-emmc-image.sh friendlycore-lite-focal-arm64
+./mk-emmc-image.sh friendlycore-lite-focal-arm64
 
 ./mk-sd-image.sh friendlywrt
-sudo ./mk-emmc-image.sh friendlywrt
+./mk-emmc-image.sh friendlywrt
 
-sudo ./mk-emmc-image.sh friendlycore-lite-focal-arm64 filename=friendlycore-lite-focal-auto-eflasher.img autostart=yes
+./mk-emmc-image.sh friendlycore-lite-focal-arm64 filename=friendlycore-lite-focal-auto-eflasher.img autostart=yes
 
 echo "done."

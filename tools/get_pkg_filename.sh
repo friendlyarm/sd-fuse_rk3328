@@ -9,6 +9,6 @@ friendlycore-lite-focal-arm64)
 eflasher)
         ROMFILE=emmc-flasher-images.tgz;;
 *)
-	ROMFILE=
+	ROMFILE=unsupported-${TARGET_OS}.tgz
 esac
 echo $ROMFILE

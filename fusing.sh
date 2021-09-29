@@ -21,7 +21,7 @@ set -eu
 # Checking device for fusing
 
 if [ $# -eq 0 ]; then
-	echo "Usage: $0 DEVICE <friendlycore-lite-focal-arm64|friendlywrt|eflasher>"
+	echo "Usage: $0 <DEVICE|RAWFILE> <OS>"
 	exit 0
 fi
 
@@ -52,7 +52,7 @@ case $1 in
 /dev/mmcblk[0-9]* | /dev/loop[0-9]*)
 		REMOVABLE=1 ;;
 *)
-	echo "Error: Unsupported SD reader ($1)"
+	echo "Error: Unsupported SD reader"
 	exit 0
 esac
 

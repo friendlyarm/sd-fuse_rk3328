@@ -45,7 +45,7 @@ sudo ./fusing.sh /dev/sdX friendlycore-lite-focal-arm64
 ```
 or build an sd card image:
 ```
-sudo ./mk-sd-image.sh friendlycore-lite-focal-arm64
+./mk-sd-image.sh friendlycore-lite-focal-arm64
 ```
 The following file will be generated:  
 ```

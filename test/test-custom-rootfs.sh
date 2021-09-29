@@ -38,4 +38,4 @@ fi
 rm $PWD/$TEMPSCRIPT
 
 ./mk-sd-image.sh friendlycore-lite-focal-arm64
-sudo ./mk-emmc-image.sh friendlycore-lite-focal-arm64
+./mk-emmc-image.sh friendlycore-lite-focal-arm64
