@@ -18,7 +18,7 @@ set -eu
 # along with this program; if not, you can access it online at
 # http://www.gnu.org/licenses/gpl-2.0.html.
 function usage() {
-       echo "Usage: $0 <debian|buildroot|friendlycore-arm64|friendlydesktop-arm64|lubuntu|friendlywrt|eflasher>"
+       echo "Usage: $0 <friendlycore-focal-arm64|friendlycore-lite-focal-arm64|friendlywrt|eflasher>"
        exit 0
 }
 
@@ -53,7 +53,6 @@ fi
 # ----------------------------------------------------------
 # Create zero file
 
-CODENAME=bionic
 if [ $# -eq 2 ]; then
 	RAW_FILE=$2
     case ${TARGET_OS} in
@@ -62,6 +61,8 @@ if [ $# -eq 2 ]; then
     friendlywrt)
         RAW_SIZE_MB=1000 ;;
     friendlydesktop-arm64)
+        RAW_SIZE_MB=7800 ;;
+    friendlycore-focal-arm64)
         RAW_SIZE_MB=7800 ;;
     debian)
         RAW_SIZE_MB=7800 ;;
@@ -77,14 +78,20 @@ if [ $# -eq 2 ]; then
 else
 	case ${TARGET_OS} in
 	friendlycore-arm64)
-		RAW_FILE=${SOC}-sd-friendlycore-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlycore-bionic-4.4-arm64-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
 	friendlywrt)
-		RAW_FILE=${SOC}-sd-friendlywrt-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlywrt-4.19-arm64-$(date +%Y%m%d).img
 		RAW_SIZE_MB=1000 ;;
 	friendlydesktop-arm64)
-		RAW_FILE=${SOC}-sd-friendlydesktop-${CODENAME}-4.4-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlydesktop-bionic-4.4-arm64-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
+    friendlycore-focal-arm64)
+        RAW_FILE=${SOC}-sd-friendlycore-focal-4.19-arm64-$(date +%Y%m%d).img
+        RAW_SIZE_MB=7800 ;; 
+    friendlycore-lite-focal-arm64)
+        RAW_FILE=${SOC}-sd-friendlycore-lite-focal-4.19-arm64-$(date +%Y%m%d).img
+        RAW_SIZE_MB=7800 ;; 
 	debian)
 		RAW_FILE=${SOC}-sd-debian9-4.4-armhf-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
@@ -95,8 +102,11 @@ else
 		RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;
 	buildroot)
-	        RAW_FILE=${SOC}-sd-buildroot-linux-4.4-arm64-$(date +%Y%m%d).img
-	        RAW_SIZE_MB=4000 ;;
+	    RAW_FILE=${SOC}-sd-buildroot-linux-4.4-arm64-$(date +%Y%m%d).img
+	    RAW_SIZE_MB=4000 ;;
+    android10)
+        RAW_FILE=${SOC}-sd-android10-$(date +%Y%m%d).img
+        RAW_SIZE_MB=7800 ;;
 	*)
 		RAW_FILE=${SOC}-${TARGET_OS}-sd4g-$(date +%Y%m%d).img
 		RAW_SIZE_MB=7800 ;;

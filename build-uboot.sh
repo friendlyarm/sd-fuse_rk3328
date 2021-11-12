@@ -22,11 +22,7 @@ true ${SOC:=rk3328}
 true ${DISABLE_MKIMG:=0}
 
 UBOOT_REPO=https://github.com/friendlyarm/uboot-rockchip
-UBOOT_BRANCH=nanopi4-v2014.10_oreo
-
-ARCH=arm64
-UCFG=nanopi_r2_defconfig
-CROSS_COMPILER=aarch64-linux-
+UBOOT_BRANCH=nanopi4-v2017.09
 
 TOPPATH=$PWD
 OUT=$TOPPATH/out
@@ -42,7 +38,7 @@ echo "uboot src: ${UBOOT_SRC}"
 # apt-get install swig python-dev python3-dev
 
 function usage() {
-       echo "Usage: $0 <friendlycore|friendlywrt>"
+       echo "Usage: $0 <friendlycore-focal-arm64|friendlycore-lite-focal-arm64|friendlywrt>"
        echo "# example:"
        echo "# clone uboot source from github:"
        echo "    git clone ${UBOOT_REPO} --depth 1 -b ${UBOOT_BRANCH} ${UBOOT_SRC}"
@@ -63,11 +59,9 @@ fi
 # ----------------------------------------------------------
 # Get target OS
 true ${TARGET_OS:=${1,,}}
-RKPARAM=./${TARGET_OS}/parameter.txt
-RKPARAM2=./${TARGET_OS}/param4sd.txt
 
 case ${TARGET_OS} in
-friendlycore | friendlywrt | eflasher)
+friendlycore* | friendlywrt | eflasher)
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
@@ -82,18 +76,25 @@ esac
 # fi
 
 download_img() {
-    if [ -f "${RKPARAM}" -o -f "${RKPARAM2}" ]; then
+    local RKPARAM=$(dirname $0)/${1}/parameter.txt
+    case ${1} in
+    eflasher)
+        RKPARAM=$(dirname $0)/${1}/partmap.txt
+        ;;
+    esac
+
+    if [ -f "${RKPARAM}" ]; then
         echo ""
     else
 	ROMFILE=`./tools/get_pkg_filename.sh ${1}`
         cat << EOF
 Warn: Image not found for "${1}"
 ----------------
-you may download them from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
+you may download it from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
 the image files are stored in a directory called images-for-eflasher, for example:
     tar xvzf /path/to/NETDISK/images-for-eflasher/${ROMFILE}
 ----------------
-Or, download from http (Y/N)?
+Do you want to download it now via http? (Y/N):
 EOF
         while read -r -n 1 -t 3600 -s USER_REPLY; do
             if [[ ${USER_REPLY} = [Nn] ]]; then
@@ -116,6 +117,11 @@ EOF
 if [ ! -d ${UBOOT_SRC} ]; then
 	git clone ${UBOOT_REPO} --depth 1 -b ${UBOOT_BRANCH} ${UBOOT_SRC}
 fi
+if [ ! -d ${UBOOT_SRC}/../rkbin ]; then
+    (cd ${UBOOT_SRC}/../ && {
+        git clone https://github.com/friendlyarm/rkbin -b friendlyelec
+    })
+fi
 
 if [ ! -d /opt/FriendlyARM/toolchain/6.4-aarch64 ]; then
 	echo "please install aarch64-gcc-6.4 first, using these commands: "
@@ -130,6 +136,7 @@ export PATH=/opt/FriendlyARM/toolchain/6.4-aarch64/bin/:$PATH
 
 if ! [ -x "$(command -v simg2img)" ]; then
     sudo apt install android-tools-fsutils
+    # 20.04: sudo apt-get install android-sdk-libsparse-utils android-sdk-ext4-utils
 fi
 
 if ! [ -x "$(command -v swig)" ]; then
@@ -137,15 +144,14 @@ if ! [ -x "$(command -v swig)" ]; then
 fi
 
 # get include path for this python version
-INCLUDE_PY=$(python -c "from distutils import sysconfig as s; print s.get_config_vars()['INCLUDEPY']")
-if [ ! -f "${INCLUDE_PY}/Python.h" ]; then
-    sudo apt install python-dev python3-dev
-fi  
+# INCLUDE_PY=$(python -c "from distutils import sysconfig as s; print s.get_config_vars()['INCLUDEPY']")
+# if [ ! -f "${INCLUDE_PY}/Python.h" ]; then
+#     sudo apt install python-dev python3-dev
+# fi  
 
 cd ${UBOOT_SRC}
 make distclean
-make CROSS_COMPILE=${CROSS_COMPILER} ${UCFG}
-make CROSS_COMPILE=${CROSS_COMPILER} -j$(nproc)
+./make.sh nanopi_r2
 
 if [ $? -ne 0 ]; then
 	echo "failed to build uboot."
@@ -159,7 +165,7 @@ fi
 echo "building uboot ok."
 cd ${TOPPATH}
 download_img ${TARGET_OS}
-./tools/update_uboot_bin.sh ${OUT} ${UBOOT_SRC} ${TOPPATH}/${TARGET_OS}
+./tools/update_uboot_bin.sh ${UBOOT_SRC} ${TOPPATH}/${TARGET_OS}
 if [ $? -eq 0 ]; then
     echo "updating ${TARGET_OS}/bootloader.img ok."
 else

@@ -18,7 +18,7 @@
 # http://www.gnu.org/licenses/gpl-2.0.html.
 
 function usage() {
-       echo "Usage: $0 <debian|buildroot|android7|android8|friendlywrt|friendlycore-arm64|friendlydesktop-arm64|lubuntu|eflasher>"
+       echo "Usage: $0 <friendlycore-focal-arm64|friendlycore-lite-focal-arm64|friendlywrt>"
        exit 0
 }
 
@@ -42,19 +42,24 @@ esac
 
 download_img() {
     local RKPARAM=$(dirname $0)/${1}/parameter.txt
-    local RKPARAM2=$(dirname $0)/${1}/param4sd.txt
-    if [ -f "${RKPARAM}" -o -f "${RKPARAM2}" ]; then
+    case ${1} in
+    eflasher)
+        RKPARAM=$(dirname $0)/${1}/partmap.txt
+        ;;
+    esac
+
+    if [ -f "${RKPARAM}" ]; then
         echo ""
     else
 	ROMFILE=`./tools/get_pkg_filename.sh ${1}`
         cat << EOF
 Warn: Image not found for ${1}
 ----------------
-you may download them from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
+you may download it from the netdisk (dl.friendlyarm.com) to get a higher downloading speed,
 the image files are stored in a directory called images-for-eflasher, for example:
     tar xvzf /path/to/NETDISK/images-for-eflasher/${ROMFILE}
 ----------------
-Or, download from http (Y/N)?
+Do you want to download it now via http? (Y/N):
 EOF
         while read -r -n 1 -t 3600 -s USER_REPLY; do
             if [[ ${USER_REPLY} = [Nn] ]]; then
