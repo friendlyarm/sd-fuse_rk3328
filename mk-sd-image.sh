@@ -56,10 +56,10 @@ if [ $# -eq 2 ]; then
 else
 	case ${TARGET_OS} in
 	friendlycore-lite-focal-arm64)
-		RAW_FILE=${SOC}-sd-friendlycore-lite-focal-5.10-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlycore-lite-focal-5.15-arm64-$(date +%Y%m%d).img
 		;;
 	friendlywrt)
-		RAW_FILE=${SOC}-sd-friendlywrt-5.10-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-friendlywrt-5.15-arm64-$(date +%Y%m%d).img
 		;;
 	eflasher)
 		RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img
