@@ -16,9 +16,9 @@ sudo rm -rf tmp/*
 cd tmp
 git clone ../../.git sd-fuse_rk3328
 cd sd-fuse_rk3328
-wget http://${HTTP_SERVER}/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
+wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xzf friendlycore-lite-focal-arm64-images.tgz
-wget http://${HTTP_SERVER}/dvdfiles/rk3328/images-for-eflasher/emmc-flasher-images.tgz
+wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/emmc-flasher-images.tgz
 tar xzf emmc-flasher-images.tgz
 
 # make big file

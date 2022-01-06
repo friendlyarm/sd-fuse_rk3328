@@ -21,7 +21,7 @@ cd sd-fuse_rk3328
 if [ -f ../../friendlycore-lite-focal-arm64-images.tgz ]; then
 	tar xvzf ../../friendlycore-lite-focal-arm64-images.tgz
 else
-	wget http://${HTTP_SERVER}/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
+	wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
     tar xvzf friendlycore-lite-focal-arm64-images.tgz
 fi
 
