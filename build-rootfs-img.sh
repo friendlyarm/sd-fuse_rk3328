@@ -2,10 +2,10 @@
 set -eu
 
 if [ $# -lt 2 ]; then
-	echo "Usage: $0 <rootfs dir> <img filename> "
+	echo "Usage: $0 <rootfs dir> <img dir> "
     echo "example:"
-    echo "    tar xvzf NETDISK/RK3328/rootfs/rootfs-friendlycore-20190603.tgz"
-    echo "    ./build-rootfs-img.sh friendlycore/rootfs friendlycore"
+    echo "    tar xvzf NETDISK/RK3328/rootfs/rootfs-friendlycore-focal-arm64.tgz"
+    echo "    ./build-rootfs-img.sh friendlycore-focal-arm64/rootfs friendlycore-focal-arm64"
 	exit 0
 fi
 
@@ -26,18 +26,17 @@ if [ ! -d ${ROOTFS_DIR} ]; then
     exit 1
 fi
 
-# Automatically re-run script under sudo if not root
-if [ $(id -u) -ne 0 ]; then
-        echo "Re-running script under sudo..."
-        sudo "$0" "$@"
-        exit
-fi
-
 MKFS_OPTS="-s -a root -L rootfs"
 if echo ${TARGET_OS} | grep friendlywrt -i >/dev/null; then
     # set default uid/gid to 0
     MKFS_OPTS="-0 ${MKFS_OPTS}"
 fi
+
+if echo ${TARGET_OS} | grep buildroot -i >/dev/null; then
+    # set default uid/gid to 0
+    MKFS_OPTS="-0 ${MKFS_OPTS}"
+fi
+
 if [ ${IMG_SIZE} -eq 0 ]; then
     # calc image size
     ROOTFS_SIZE=`du -s -B 1 ${ROOTFS_DIR} | cut -f1`

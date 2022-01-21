@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+. tools/global.sh
+
 # Copyright (C) Guangzhou FriendlyARM Computer Tech. Co., Ltd.
 # (http://www.friendlyarm.com)
 #
@@ -38,17 +40,17 @@ echo "uboot src: ${UBOOT_SRC}"
 # apt-get install swig python-dev python3-dev
 
 function usage() {
-       echo "Usage: $0 <friendlycore-focal-arm64|friendlycore-lite-focal-arm64|friendlywrt>"
+       echo "Usage: $0 <${SUPPORTED_OS}>"
        echo "# example:"
        echo "# clone uboot source from github:"
        echo "    git clone ${UBOOT_REPO} --depth 1 -b ${UBOOT_BRANCH} ${UBOOT_SRC}"
        echo "# or clone your local repo:"
        echo "    git clone git@192.168.1.2:/path/to/uboot.git --depth 1 -b ${UBOOT_BRANCH} ${UBOOT_SRC}"
        echo "# then"
-       echo "    ./build-uboot.sh friendlycore "
-       echo "    ./mk-emmc-image.sh friendlycore "
+       echo "    ./build-uboot.sh buildroot "
+       echo "    ./mk-emmc-image.sh buildroot "
        echo "# also can do:"
-       echo "	UBOOT_SRC=~/myuboot ./build-uboot.sh friendlycore"
+       echo "	UBOOT_SRC=~/myuboot ./build-uboot.sh buildroot"
        exit 0
 }
 
@@ -61,19 +63,12 @@ fi
 true ${TARGET_OS:=${1,,}}
 
 case ${TARGET_OS} in
-friendlycore* | friendlywrt | eflasher)
+friendlycore* | buildroot* )
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
         exit 0
 esac
-
-# Automatically re-run script under sudo if not root
-# if [ $(id -u) -ne 0 ]; then
-# 	echo "Re-running script under sudo..."
-# 	sudo UBOOT_SRC=${UBOOT_SRC} DISABLE_MKIMG=${DISABLE_MKIMG} "$0" "$@"
-# 	exit
-# fi
 
 download_img() {
     local RKPARAM=$(dirname $0)/${1}/parameter.txt
@@ -132,7 +127,6 @@ if [ ! -d /opt/FriendlyARM/toolchain/6.4-aarch64 ]; then
 fi
 
 export PATH=/opt/FriendlyARM/toolchain/6.4-aarch64/bin/:$PATH
-
 
 if ! [ -x "$(command -v simg2img)" ]; then
     sudo apt install android-tools-fsutils

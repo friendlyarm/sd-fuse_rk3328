@@ -8,8 +8,9 @@ set -eu
 
 cp -f $2/boot.img $1/
 cp -f $2/idbloader.img $1/
+cp -f $2/misc.img $1/
+cp -f $2/dtbo.img $1/
 
-# TODO: env.conf?
 
 if [ ! -f $1/userdata.img ]; then
 	USERDATA_SIZE=104857600

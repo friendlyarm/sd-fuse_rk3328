@@ -54,7 +54,7 @@ KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 true ${KERNEL_SRC:=${OUT}/kernel-${SOC}}
 
 function usage() {
-       echo "Usage: $0 <friendlycore-focal-arm64|friendlycore-lite-focal-arm64|friendlywrt|eflasher>"
+       echo "Usage: $0 <buildroot|friendlycore-focal-arm64>"
        echo "# example:"
        echo "# clone kernel source from github:"
        echo "    git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}"
@@ -63,13 +63,12 @@ function usage() {
        echo "# then"
        echo "    convert files/logo.jpg -type truecolor /tmp/logo.bmp"
        echo "    convert files/logo.jpg -type truecolor /tmp/logo_kernel.bmp"
-       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh eflasher"
-       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh friendlycore-lite-focal-arm64"
-       echo "    ./mk-emmc-image.sh friendlycore-focal-arm64"
+       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh buildroot"
+       echo "    ./mk-emmc-image.sh buildroot"
        echo "# also can do:"
-       echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh friendlycore-lite-focal-arm64"
+       echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh buildroot"
        echo "# other options, build kernel-headers:"
-       echo "    MK_HEADERS_DEB=1 ./build-kernel.sh friendlycore-lite-focal-arm64"
+       echo "    MK_HEADERS_DEB=1 ./build-kernel.sh buildroot"
        exit 0
 }
 
@@ -83,7 +82,7 @@ true ${TARGET_OS:=${1,,}}
 
 
 case ${TARGET_OS} in
-buildroot* | android7 | android8 | friendlycore* | friendlydesktop* | lubuntu* | friendlywrt | eflasher )
+buildroot*|friendlycore-focal-arm64 )
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
@@ -99,7 +98,7 @@ download_img() {
     esac
     
     if [ -f "${RKPARAM}" ]; then
-	echo "${1} found."
+	    echo "${1} found."
     else
 	ROMFILE=`./tools/get_pkg_filename.sh ${1}`
         cat << EOF

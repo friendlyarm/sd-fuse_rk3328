@@ -3,8 +3,8 @@
 if [ $# -lt 2 ]; then
 	echo "Usage: $0 <boot dir> <img filename>"
     echo "example:"
-    echo "    tar xvzf NETDISK/rk3328/rootfs/rootfs-friendlycore-arm64-20190603.tgz"
-    echo "    ./build-boot-img.sh friendlycore-arm64/boot friendlycore-arm64/boot.img"
+    echo "    tar xvzf NETDISK/RK3328/rootfs/rootfs-buildroot-20190603.tgz"
+    echo "    ./build-boot-img.sh buildroot/boot buildroot/boot.img"
     exit 1
 fi
 TOPDIR=$PWD
@@ -17,12 +17,6 @@ if [ ! -d ${BOOT_DIR} ]; then
     exit 1
 fi
 
-# Automatically re-run script under sudo if not root
-if [ $(id -u) -ne 0 ]; then
-	echo "Re-running script under sudo..."
- 	sudo "$0" "$@"
- 	exit
-fi
 # 64M
 IMG_SIZE=67108864
 
