@@ -38,7 +38,7 @@ true ${SOC:=rk3328}
 true ${TARGET_OS:=${1,,}}
 
 case ${TARGET_OS} in
-friendlycore-lite-focal-arm64 | friendlywrt)
+friendlycore-lite-focal-arm64 | friendlywrt*)
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"

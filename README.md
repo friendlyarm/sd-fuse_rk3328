@@ -18,7 +18,7 @@ git clone https://github.com/friendlyarm/sd-fuse_rk3328.git
 cd sd-fuse_rk3328
 sudo ./fusing.sh /dev/sdX friendlycore-lite-focal-arm64
 ```
-You can build the following OS: friendlycore-lite-focal-arm64, friendlywrt.  
+You can build the following OS: friendlycore-lite-focal-arm64, friendlywrt21, friendlywrt21-docker, friendlywrt22, friendlywrt22-docker.  
 Because the android system has to run on the emmc, so you need to make eflasher img to install Android.  
 
 Notes:  

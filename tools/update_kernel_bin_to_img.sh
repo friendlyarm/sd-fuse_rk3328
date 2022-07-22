@@ -51,6 +51,7 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
         echo "failed to mount ${TARGET_OS}/r.img."
         exit 1
     fi
+    rm -rf ${OUT}/rootfs_new/*
     cp -af ${OUT}/rootfs_mnt/* ${OUT}/rootfs_new/
     umount ${OUT}/rootfs_mnt
     rm -rf ${OUT}/rootfs_mnt
@@ -58,13 +59,17 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
 
     # Processing rootfs_new
     # Here s5pxx18 is different from h3/h5
-
+	
     [ -d ${KMODULES_OUTDIR}/lib/firmware ] && cp -af ${KMODULES_OUTDIR}/lib/firmware/* ${OUT}/rootfs_new/lib/firmware/
     rm -rf ${OUT}/rootfs_new/lib/modules/*
     cp -af ${KMODULES_OUTDIR}/lib/modules/* ${OUT}/rootfs_new/lib/modules/
 
     MKFS_OPTS="-s -a root -L rootfs"
     if echo ${TARGET_OS} | grep friendlywrt -i >/dev/null; then
+        # set default uid/gid to 0
+        MKFS_OPTS="-0 ${MKFS_OPTS}"
+    fi
+    if echo ${TARGET_OS} | grep buildroot -i >/dev/null; then
         # set default uid/gid to 0
         MKFS_OPTS="-0 ${MKFS_OPTS}"
     fi
@@ -76,6 +81,10 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
     # +1024m + 10% rootfs size
     MAX_IMG_SIZE=$((${ROOTFS_SIZE} + 1024*1024*1024 + ${ROOTFS_SIZE}/10))
     TMPFILE=`tempfile`
+
+    # clean device files
+    (cd ${ROOTFS_DIR}/dev && find . ! -type d -exec rm {} \;)
+
     ${MKFS} -s -l ${MAX_IMG_SIZE} -a root -L rootfs /dev/null ${ROOTFS_DIR} > ${TMPFILE}
     IMG_SIZE=`cat ${TMPFILE} | grep "Suggest size:" | cut -f2 -d ':' | awk '{gsub(/^\s+|\s+$/, "");print}'`
     rm -f ${TMPFILE}
@@ -97,8 +106,8 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
         ${TOP}/tools/generate-partmap-txt.sh ${IMG_SIZE} ${TARGET_OS}
     fi
 else 
-	echo "not found ${TARGET_OS}/rootfs.img"
-	exit 1
+    echo "not found ${TARGET_OS}/rootfs.img"
+    exit 1
 fi
 
 

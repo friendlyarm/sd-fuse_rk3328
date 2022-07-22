@@ -21,8 +21,8 @@ cd sd-fuse_rk3328
 wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xzf friendlycore-lite-focal-arm64-images.tgz
 
-wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt-images.tgz
-tar xzf friendlywrt-images.tgz
+wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt22-images.tgz
+tar xzf friendlywrt22-images.tgz
 
 wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/emmc-flasher-images.tgz
 tar xzf emmc-flasher-images.tgz
@@ -31,8 +31,8 @@ tar xzf emmc-flasher-images.tgz
 ./mk-sd-image.sh friendlycore-lite-focal-arm64
 ./mk-emmc-image.sh friendlycore-lite-focal-arm64
 
-./mk-sd-image.sh friendlywrt
-./mk-emmc-image.sh friendlywrt
+./mk-sd-image.sh friendlywrt22
+./mk-emmc-image.sh friendlywrt22
 
 ./mk-emmc-image.sh friendlycore-lite-focal-arm64 filename=friendlycore-lite-focal-auto-eflasher.img autostart=yes
 

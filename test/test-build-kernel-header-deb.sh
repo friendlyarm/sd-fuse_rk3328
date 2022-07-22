@@ -20,11 +20,11 @@ sudo rm -rf tmp/*
 cd tmp
 git clone ../../.git sd-fuse_rk3328
 cd sd-fuse_rk3328
-if [ -f ../../friendlywrt-images.tgz ]; then
-	tar xvzf ../../friendlywrt-images.tgz
+if [ -f ../../friendlywrt22-images.tgz ]; then
+	tar xvzf ../../friendlywrt22-images.tgz
 else
-	wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt-images.tgz
-    tar xvzf friendlywrt-images.tgz
+	wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt22-images.tgz
+    tar xvzf friendlywrt22-images.tgz
 fi
 
 if [ -f ../../kernel-rk3328.tgz ]; then
@@ -33,4 +33,4 @@ else
 	git clone ${KERNEL_URL} --depth 1 -b ${KERNEL_BRANCH} kernel-rk3328
 fi
 
-MK_HEADERS_DEB=1 BUILD_THIRD_PARTY_DRIVER=0 KERNEL_SRC=$PWD/kernel-rk3328 ./build-kernel.sh friendlywrt
+MK_HEADERS_DEB=1 BUILD_THIRD_PARTY_DRIVER=0 KERNEL_SRC=$PWD/kernel-rk3328 ./build-kernel.sh friendlywrt22
