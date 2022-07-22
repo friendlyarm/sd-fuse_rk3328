@@ -159,6 +159,19 @@ if [ "x${TARGET_OS}" = "xeflasher" ]; then
 		exit 1
 	fi
 
+	if ! command -v mkfs.exfat &> /dev/null; then
+		if [ -f /etc/os-release ]; then
+			. /etc/os-release
+			case "$VERSION_CODENAME" in
+			jammy)
+				sudo apt-get install exfatprogs
+				;;
+			*)
+				sudo apt-get install exfat-fuse exfat-utils
+				;;
+			esac
+		fi
+	fi
 	mkfs.exfat ${LOOP_DEVICE}p1 -n FriendlyARM
 
 	# cleanup

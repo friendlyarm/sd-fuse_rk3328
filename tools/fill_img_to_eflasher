@@ -39,7 +39,7 @@ if [ $# -eq 4 ]; then
 else
 	case ${TARGET_OS} in
 	buildroot)
-	        RAW_FILE=${SOC}-eflasher-buildroot-linux-4.4-arm64-$(date +%Y%m%d).img ;;
+	        RAW_FILE=${SOC}-eflasher-buildroot-linux-4.19-arm64-$(date +%Y%m%d).img ;;
 	debian)
 		RAW_FILE=${SOC}-eflasher-debian9-4.4-armhf-$(date +%Y%m%d).img ;;
 	android7)
@@ -61,8 +61,26 @@ else
 	esac
 fi
 
+AUTOSTART=no
+Args=( "$@" )
+# skip arg1,arg2,arg3
+for (( i=3; i<${#Args[@]}; i++ ));
+do
+    if [ "x${Args[$i]}" = x"autostart=yes" ]; then
+        AUTOSTART=yes
+    elif [ "x${Args[$i]}" = x"autostart=y" ]; then
+        AUTOSTART=yes
+    elif [[ ! -z $(echo ${Args[$i]} | grep "filename=") ]]; then
+        RAW_FILE=${Args[$i]:9}
+    fi
+done
+
 gen_eflasher_conf()
 {
+    local AutoFlashOSName=
+    if [ ${3} = "yes" ]; then
+        AutoFlashOSName=${2}
+    fi
 	OSNamesMergeWithComma="friendlywr,friendlycore,android,lubuntu"
 	cat > ${1}/eflasher.conf <<EOL
 ; This is the eFlasher configuration file.
@@ -72,7 +90,7 @@ gen_eflasher_conf()
 ; Automate OS installation at system startup,
 ; The "autoStart" field specifies the path of your firmware,
 ; Available values: ${OSNamesMergeWithComma}
-autoStart=
+autoStart=${AutoFlashOSName}
 
 ; Automatically restore the specified backup at system startup,
 ; The "autoRestore" field specifies the path of your backup file.
@@ -81,6 +99,17 @@ autoRestore=
 ; If the "autoExit" set to true, the eflasher-gui will automatically exit after burning or restoring is completed,
 ; You can do something else after burning or restoring by modifying /opt/run-eflasher.sh.
 autoExit=false
+
+[UI]
+; HDMI overscan option, examples:
+;     screenSizePercent=auto
+;     screenSizePercent=90
+screenSizePercent=auto
+
+welcomeMessage=
+hideMenuButton=false
+hideBackupAndRestoreButton=false
+hideStatusBar=false
 EOL
 }
 
@@ -102,7 +131,7 @@ losetup ${DEV} ${FULLIMG}
 partprobe ${DEV}
 mkdir -p ${MNT}
 mount -t exfat ${DEV}p1 ${MNT}
-gen_eflasher_conf ${MNT}
+gen_eflasher_conf ${MNT} ${TARGET_OS} ${AUTOSTART}
 mkdir -p ${MNT}/${TARGET_OS}
 rm -rf ${MNT}/${TARGET_OS}/*
 echo "copying ${OS_IMAGES_DIR}/* to ${MNT}/${TARGET_OS} ..."

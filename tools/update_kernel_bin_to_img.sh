@@ -45,6 +45,7 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
         echo "failed to mount ${TARGET_OS}/r.img."
         exit 1
     fi
+    rm -rf ${OUT}/rootfs_new/*
     cp -af ${OUT}/rootfs_mnt/* ${OUT}/rootfs_new/
     umount ${OUT}/rootfs_mnt
     rm -rf ${OUT}/rootfs_mnt
@@ -74,6 +75,10 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
     # +1024m + 10% rootfs size
     MAX_IMG_SIZE=$((${ROOTFS_SIZE} + 1024*1024*1024 + ${ROOTFS_SIZE}/10))
     TMPFILE=`tempfile`
+
+    # clean device files
+    (cd ${ROOTFS_DIR}/dev && find . ! -type d -exec rm {} \;)
+
     ${MKFS} -s -l ${MAX_IMG_SIZE} -a root -L rootfs /dev/null ${ROOTFS_DIR} > ${TMPFILE}
     IMG_SIZE=`cat ${TMPFILE} | grep "Suggest size:" | cut -f2 -d ':' | awk '{gsub(/^\s+|\s+$/, "");print}'`
     rm -f ${TMPFILE}
