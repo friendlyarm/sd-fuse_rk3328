@@ -6,7 +6,7 @@ HTTP_SERVER=112.124.9.243
 # hack for me
 PCNAME=`hostname`
 if [ x"${PCNAME}" = x"tzs-i7pc" ]; then
-       HTTP_SERVER=192.168.1.9
+       HTTP_SERVER=127.0.0.1
 fi
 
 # clean
@@ -16,11 +16,11 @@ sudo rm -rf tmp/*
 cd tmp
 git clone ../../.git sd-fuse_rk3328
 cd sd-fuse_rk3328
-wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
+wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xzf friendlycore-lite-focal-arm64-images.tgz
-wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/emmc-flasher-images.tgz
+wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/emmc-flasher-images.tgz
 tar xzf emmc-flasher-images.tgz
-wget http://${HTTP_SERVER}/dvdfiles/RK3328/rootfs/rootfs-friendlycore-lite-focal-arm64.tgz
+wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/rootfs/rootfs-friendlycore-lite-focal-arm64.tgz
 
 TEMPSCRIPT=`mktemp script.XXXXXX`
 cat << 'EOL' > $PWD/$TEMPSCRIPT

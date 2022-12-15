@@ -8,7 +8,7 @@ KERNEL_BRANCH=nanopi-r2-v5.15.y
 # hack for me
 PCNAME=`hostname`
 if [ x"${PCNAME}" = x"tzs-i7pc" ]; then
-	HTTP_SERVER=192.168.1.9
+	HTTP_SERVER=127.0.0.1
 	KERNEL_URL=git@192.168.1.5:/devel/kernel/linux.git
 	KERNEL_BRANCH=nanopi-r2-v5.15.y
 fi
@@ -23,7 +23,7 @@ cd sd-fuse_rk3328
 if [ -f ../../friendlycore-lite-focal-arm64-images.tgz ]; then
 	tar xvzf ../../friendlycore-lite-focal-arm64-images.tgz
 else
-	wget http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
+	wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
     tar xvzf friendlycore-lite-focal-arm64-images.tgz
 fi
 
