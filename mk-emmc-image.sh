@@ -19,7 +19,7 @@ set -eu
 # http://www.gnu.org/licenses/gpl-2.0.html.
 
 function usage() {
-       echo "Usage: $0 <friendlywr,friendlycore-lite-focal-arm64> [img filename] [options]"
+       echo "Usage: $0 <friendlywrt22,friendlywrt22-docker,friendlywrt21,friendlywrt21-docker,friendlycore-lite-focal-arm64,debian-bullseye-core-arm64> [img filename] [options]"
        echo "    examples:"
        echo "        ./mk-emmc-image.sh friendlycore-lite-focal-arm64 filename=myimg-emmc.img autostart=yes"
        echo "        ./mk-emmc-image.sh friendlycore-lite-focal-arm64 autostart=yes"
@@ -38,7 +38,7 @@ true ${SOC:=rk3328}
 true ${TARGET_OS:=${1,,}}
 
 case ${TARGET_OS} in
-friendlycore-lite-focal-arm64 | friendlywrt*)
+friendlycore-lite-focal-arm64 | friendlywrt* | debian-*)
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"

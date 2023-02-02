@@ -81,7 +81,7 @@ KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 true ${KERNEL_SRC:=${OUT}/kernel-${SOC}}
 
 function usage() {
-       echo "Usage: $0 <friendlycore-lite-focal-arm64|friendlywrt22|friendlywrt22-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
+       echo "Usage: $0 <friendlycore-lite-focal-arm64|debian-bullseye-core-arm64|friendlywrt22|friendlywrt22-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
        echo "# example:"
        echo "# clone kernel source from github:"
        echo "    git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}"
@@ -110,7 +110,7 @@ true ${TARGET_OS:=${1,,}}
 
 
 case ${TARGET_OS} in
-friendlycore-lite-focal-arm64 | friendlywrt* | eflasher )
+buildroot* | friendlycore-lite-focal-arm64 | friendlywrt* | eflasher )
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
@@ -246,6 +246,8 @@ function build_kernel() {
         fi
         (cd rtw88/ && {
             make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} -C ${KERNEL_SRC} M=$(pwd)
+            # Disable rtw88 usb support
+            rm -f rtw88_*.ko rtw_usb.ko
             cp *.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
         })
     })
@@ -282,7 +284,7 @@ function build_kernel() {
             find usr/src/linux-headers*/scripts/ \
                 -name "*.o" -o -name ".*.cmd" | xargs rm -rf
 
-            HEADERS_SCRIPT_DIR=${TOPPATH}/files/linux-headers-5.15-bin_arm64/scripts
+            HEADERS_SCRIPT_DIR=${TOPPATH}/files/linux-headers-5.10-bin_arm64/scripts
             if [ -d ${HEADERS_SCRIPT_DIR} ]; then
                 cp -avf ${HEADERS_SCRIPT_DIR}/* ./usr/src/linux-headers-*${KERNEL_VER}*/scripts/
                 if [ $? -ne 0 ]; then

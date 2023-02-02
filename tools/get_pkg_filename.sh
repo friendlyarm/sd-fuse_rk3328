@@ -12,6 +12,8 @@ friendlywrt21-docker)
         ROMFILE=friendlywrt21-docker-images.tgz;;
 friendlycore-lite-focal-arm64)
         ROMFILE=friendlycore-lite-focal-arm64-images.tgz;;
+debian-*)
+        ROMFILE=${TARGET_OS%-*}-arm64-images.tgz;;
 eflasher)
         ROMFILE=emmc-flasher-images.tgz;;
 *)
