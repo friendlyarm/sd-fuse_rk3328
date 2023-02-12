@@ -39,16 +39,24 @@ true ${TARGET_OS:=${1,,}}
 
 RK_PARAMETER_TXT=$(dirname $0)/${TARGET_OS}/parameter.txt
 case ${TARGET_OS} in
-buildroot*)
-    RAW_SIZE_MB=7800 ;;
-friendlycore-focal-arm64)
-    RAW_SIZE_MB=7800 ;;
-*)
-	echo "Error: ensupported target OS: ${TARGET_OS}"
-
-	exit -1
-	;;
+	eflasher)
+		RK_PARAMETER_TXT=$(dirname $0)/${TARGET_OS}/partmap.txt
+		;;
 esac
+
+true ${RAW_SIZE_MB:=0}
+if [ $RAW_SIZE_MB -eq 0 ]; then
+	case ${TARGET_OS} in
+	buildroot*)
+		RAW_SIZE_MB=7800 ;;
+	friendlycore-focal-arm64)
+		RAW_SIZE_MB=7800 ;;
+	eflasher)
+		RAW_SIZE_MB=7800 ;;
+	*)
+		RAW_SIZE_MB=7800 ;;
+	esac
+fi
 
 if [ $# -eq 2 ]; then
 	RAW_FILE=$2
@@ -59,7 +67,10 @@ else
 		;;
    friendlycore-focal-arm64)
         RAW_FILE=${SOC}-sd-friendlycore-focal-4.19-arm64-$(date +%Y%m%d).img
-        ;; 
+        ;;
+	eflasher)
+		RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img
+		;;
 	*)
 		RAW_FILE=${SOC}-${TARGET_OS}-$(date +%Y%m%d).img
 		;;
@@ -132,7 +143,7 @@ if [ "x${TARGET_OS}" = "xeflasher" ]; then
 	# Automatically re-run script under sudo if not root
 	if [ $(id -u) -ne 0 ]; then
 		echo "Re-running script under sudo..."
-		sudo "$0" "$@"
+		sudo --preserve-env "$0" "$@"
 		exit
 	fi
 
