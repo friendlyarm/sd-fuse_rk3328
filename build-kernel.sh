@@ -34,6 +34,7 @@ KIMG=kernel.img
 KDTB=resource.img
 KALL=nanopi4-images
 CROSS_COMPILE=aarch64-linux-gnu-
+export PATH=/opt/FriendlyARM/toolchain/11.3-aarch64/bin/:$PATH
 
 # 
 # kernel logo:
@@ -132,11 +133,11 @@ if [ ! -d ${KERNEL_SRC} ]; then
 	git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}
 fi
 
-if [ ! -d /opt/FriendlyARM/toolchain/6.4-aarch64 ]; then
-	echo "please install aarch64-gcc-6.4 first, using these commands: "
-	echo "\tgit clone https://github.com/friendlyarm/prebuilts.git -b master --depth 1"
-	echo "\tcd prebuilts/gcc-x64"
-	echo "\tcat toolchain-6.4-aarch64.tar.gz* | sudo tar xz -C /"
+if [ ! -d /opt/FriendlyARM/toolchain/11.3-aarch64 ]; then
+	echo "please install aarch64-gcc-11.3 first, using these commands: "
+	echo "    git clone https://github.com/friendlyarm/prebuilts.git -b master --depth 1"
+	echo "    cd prebuilts/gcc-x64"
+	echo "    sudo tar xvf toolchain-11.3-aarch64.tar.xz -C /"
 	exit 1
 fi
 
@@ -154,7 +155,6 @@ else
         echo "using official kernel logo."
 fi
 
-export PATH=/opt/FriendlyARM/toolchain/6.4-aarch64/bin/:$PATH
 
 cd ${KERNEL_SRC}
 make distclean
