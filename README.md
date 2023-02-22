@@ -25,6 +25,7 @@ For other kernel versions, please switch to the related git branch.
 * friendlywrt22-docker
 * friendlywrt21
 * friendlywrt21-docker
+* debian-bullseye-core-arm64
 * friendlycore-lite-focal-arm64
 
   
@@ -56,7 +57,7 @@ If the files are not prepared in advance, the script will automatically download
 *Note: Here we use friendlycore-lite-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), due to the bandwidth of the http server, we recommend downloading the file from the [NetDrive](https://download.friendlyelec.com/rk3328):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -74,12 +75,20 @@ The following flashable image file will be generated, it is now ready to be used
 out/rk3328-sd-friendlycore-lite-focal-5.15-arm64-YYYYMMDD.img
 ```
 
+#### Create an SD card image that does not use OverlayFS
+The following command will create an SD card image with OverlayFS disabled:
+```
+cp prebuilt/parameter-ext4.txt friendlycore-lite-focal-arm64/parameter.txt
+./mk-sd-image.sh friendlycore-lite-focal-arm64
+```
+Disabling overlayfs is useful for exporting rootfs root filesystem.
+
 
 ### Build your own SD-to-eMMC Image
 *Note: Here we use friendlycore-lite-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), here you need to download the friendlycore-lite-focal and eflasher [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -99,7 +108,7 @@ out/rk3328-eflasher-friendlycore-lite-focal-5.15-arm64-YYYYMMDD.img
 *Note: Here we use friendlycore-lite-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -127,6 +136,8 @@ Or build SD-to-eMMC image:
 ```
 #### Tips
 
+* Export a custom root filesystem from SD card, you need [disable OverlayFS](#create-an-sd-card-image-that-does-not-use-overlayfs) first.
+
 * Using the debootstrap tool, you can customize the file system, pre-install packages, etc.
 
 
@@ -134,7 +145,7 @@ Or build SD-to-eMMC image:
 *Note: Here we use friendlycore-lite-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -174,7 +185,7 @@ MK_HEADERS_DEB=1 ./build-kernel.sh friendlycore-lite-focal-arm64
 *Note: Here we use friendlycore-lite-focal system as an example* 
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher)::
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz

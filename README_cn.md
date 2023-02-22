@@ -25,6 +25,7 @@ sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的�
 * friendlywrt22-docker
 * friendlywrt21
 * friendlywrt21-docker
+* debian-bullseye-core-arm64
 * friendlycore-lite-focal-arm64
 
   
@@ -56,7 +57,7 @@ sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的�
 *注: 这里以friendlycore-lite-focal系统为例进行说明*  
 下载本仓库到本地, 然后下载并解压friendlycore-lite-focal系统的[分区镜像文件压缩包](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), 由于http服务器带宽的关系, wget命令可能会比较慢, 推荐从网盘上下载同名的文件:
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -74,12 +75,20 @@ sudo ./fusing.sh /dev/sdX friendlycore-lite-focal-arm64
 out/rk3328-sd-friendlycore-lite-focal-5.15-arm64-YYYYMMDD.img
 ```
 
+#### 创建一个不使用OverlayFS的SD卡镜像
+产品量产需要从SD卡导出根文件系统时, 需要提前禁用OverlayFS, 下面的命令将制作一个已禁用OverlayFS的SD卡镜像:
+```
+cp prebuilt/parameter-ext4.txt friendlycore-lite-focal-arm64/parameter.txt
+./mk-sd-image.sh friendlycore-lite-focal-arm64
+```
+使用此SD卡镜像制作SD启动卡, 运行系统并进行量产所需的设置后, 将SD卡插入到Linux电脑并挂载, 使用cp或rsync命令拷贝最后一个分区的文件和目录, 即可得到完整的可用于量产的rootfs根文件系统, 最后[参考此处的内容](#定制文件系统)制作成可量产的SD卡镜像或eMMC镜像。
+
 
 ### 重新打包 SD-to-eMMC 卡刷固件
 *注: 这里以friendlycore-lite-focal系统为例进行说明*  
 下载本仓库到本地, 然后下载并解压[分区镜像文件压缩包](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), 这里需要下载friendlycore-lite-focal和eflasher系统的文件:
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -99,7 +108,7 @@ out/rk3328-eflasher-friendlycore-lite-focal-5.15-arm64-YYYYMMDD.img
 *注: 这里以friendlycore-lite-focal系统为例进行说明*  
 下载本仓库到本地, 然后下载并解压[分区镜像压缩包](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -127,13 +136,15 @@ sudo ./build-rootfs-img.sh friendlycore-lite-focal-arm64/rootfs friendlycore-lit
 ```
 #### 文件系统Tips:
 
+* 要从一个SD卡中导出定制好的文件系统, 你需要提前[禁用OverlayFS](#创建一个不使用overlayfs的sd卡镜像)
+
 * 可利用debootstrap工具对文件系统进行定制, 预装软件包等
 
 ### 编译内核
 *注: 这里以friendlycore-lite-focal系统为例进行说明*  
 下载本仓库到本地, 然后下载并解压[分区镜像压缩包](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz
@@ -173,7 +184,7 @@ MK_HEADERS_DEB=1 ./build-kernel.sh friendlycore-lite-focal-arm64
 *注: 这里以friendlycore-lite-focal系统为例进行说明* 
 下载本仓库到本地, 然后下载并解压[分区镜像压缩包](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y sd-fuse_rk3328-kernel5.15
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-5.15.y --single-branch sd-fuse_rk3328-kernel5.15
 cd sd-fuse_rk3328-kernel5.15
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xvzf friendlycore-lite-focal-arm64-images.tgz

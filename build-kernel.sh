@@ -184,7 +184,7 @@ fi
 
 function build_kernel() {
     cd ${KERNEL_SRC}
-    make distclean
+    [ -d .git ] && git clean -dxf
     touch .scmversion
     make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} ${KCFG}
     if [ $? -ne 0 ]; then
