@@ -53,7 +53,7 @@ If the files are not prepared in advance, the script will automatically download
 *Note: Here we use friendlycore-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), due to the bandwidth of the http server, we recommend downloading the file from the [NetDrive](https://download.friendlyelec.com/rk3328):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 sd-fuse_rk3328-kernel4.19
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 --single-branch sd-fuse_rk3328-kernel4.19
 cd sd-fuse_rk3328-kernel4.19
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-focal-arm64-images.tgz
 tar xvzf friendlycore-focal-arm64-images.tgz
@@ -76,7 +76,7 @@ out/rk3328-sd-friendlycore-focal-4.19-arm64-YYYYMMDD.img
 *Note: Here we use friendlycore-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), here you need to download the friendlycore-focal and eflasher [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 sd-fuse_rk3328-kernel4.19
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 --single-branch sd-fuse_rk3328-kernel4.19
 cd sd-fuse_rk3328-kernel4.19
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-focal-arm64-images.tgz
 tar xvzf friendlycore-focal-arm64-images.tgz
@@ -96,7 +96,7 @@ out/rk3328-eflasher-friendlycore-focal-4.19-arm64-YYYYMMDD.img
 *Note: Here we use friendlycore-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 sd-fuse_rk3328-kernel4.19
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 --single-branch sd-fuse_rk3328-kernel4.19
 cd sd-fuse_rk3328-kernel4.19
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-focal-arm64-images.tgz
 tar xvzf friendlycore-focal-arm64-images.tgz
@@ -131,7 +131,7 @@ Or build SD-to-eMMC image:
 *Note: Here we use friendlycore-focal system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 sd-fuse_rk3328-kernel4.19
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 --single-branch sd-fuse_rk3328-kernel4.19
 cd sd-fuse_rk3328-kernel4.19
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-focal-arm64-images.tgz
 tar xvzf friendlycore-focal-arm64-images.tgz
@@ -171,7 +171,7 @@ MK_HEADERS_DEB=1 ./build-kernel.sh friendlycore-focal-arm64
 *Note: Here we use friendlycore-focal system as an example* 
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher)::
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 sd-fuse_rk3328-kernel4.19
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-4.19 --single-branch sd-fuse_rk3328-kernel4.19
 cd sd-fuse_rk3328-kernel4.19
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/friendlycore-focal-arm64-images.tgz
 tar xvzf friendlycore-focal-arm64-images.tgz
