@@ -39,9 +39,17 @@ true ${TARGET_OS:=${1,,}}
 
 RK_PARAMETER_TXT=$(dirname $0)/${TARGET_OS}/parameter.txt
 case ${TARGET_OS} in
-	eflasher)
-		RK_PARAMETER_TXT=$(dirname $0)/${TARGET_OS}/partmap.txt
-		;;
+eflasher)
+	RK_PARAMETER_TXT=$(dirname $0)/${TARGET_OS}/partmap.txt
+	;;
+buildroot*)
+    RAW_SIZE_MB=7800 ;;
+friendlycore-focal-arm64)
+    RAW_SIZE_MB=7800 ;;
+*)
+	echo "Error: unsupported target OS: ${TARGET_OS}"
+	exit -1
+	;;
 esac
 
 true ${RAW_SIZE_MB:=0}
