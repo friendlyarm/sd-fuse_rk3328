@@ -50,7 +50,7 @@ if [ $RAW_SIZE_MB -eq 0 ]; then
 	debian-*)
 		RAW_SIZE_MB=7800 ;;
 	friendlywrt*)
-		RAW_SIZE_MB=1000 ;;
+		RAW_SIZE_MB=1500 ;;
 	eflasher)
 		RAW_SIZE_MB=7800 ;;
 	*)
