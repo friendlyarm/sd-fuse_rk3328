@@ -55,7 +55,7 @@ KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 true ${KERNEL_SRC:=${OUT}/kernel-${SOC}}
 
 function usage() {
-       echo "Usage: $0 <buildroot|friendlycore-focal-arm64>"
+       echo "Usage: $0 <OS>"
        echo "# example:"
        echo "# clone kernel source from github:"
        echo "    git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}"
@@ -83,7 +83,7 @@ true ${TARGET_OS:=${1,,}}
 
 
 case ${TARGET_OS} in
-buildroot*|friendlycore-focal-arm64 )
+buildroot*|debian-*|friendlycore-focal-arm64 )
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"

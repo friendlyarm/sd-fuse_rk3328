@@ -42,9 +42,7 @@ case ${TARGET_OS} in
 eflasher)
 	RK_PARAMETER_TXT=$(dirname $0)/${TARGET_OS}/partmap.txt
 	;;
-buildroot*)
-    RAW_SIZE_MB=7800 ;;
-friendlycore-focal-arm64)
+buildroot*|debian-*|friendlycore-focal-arm64)
     RAW_SIZE_MB=7800 ;;
 *)
 	echo "Error: unsupported target OS: ${TARGET_OS}"
@@ -55,11 +53,7 @@ esac
 true ${RAW_SIZE_MB:=0}
 if [ $RAW_SIZE_MB -eq 0 ]; then
 	case ${TARGET_OS} in
-	buildroot*)
-		RAW_SIZE_MB=7800 ;;
-	friendlycore-focal-arm64)
-		RAW_SIZE_MB=7800 ;;
-	eflasher)
+	buildroot*|debian-*|friendlycore-focal-arm64|eflasher)
 		RAW_SIZE_MB=7800 ;;
 	*)
 		RAW_SIZE_MB=7800 ;;
@@ -70,11 +64,8 @@ if [ $# -eq 2 ]; then
 	RAW_FILE=$2
 else
 	case ${TARGET_OS} in
-	buildroot*)
-		RAW_FILE=${SOC}-sd-buildroot-4.19-arm64-$(date +%Y%m%d).img
-		;;
-   friendlycore-focal-arm64)
-        RAW_FILE=${SOC}-sd-friendlycore-focal-4.19-arm64-$(date +%Y%m%d).img
+    buildroot*|friendlycore-*|debian-*)
+        RAW_FILE=${SOC}-sd-${TARGET_OS%-*}-4.19-arm64-$(date +%Y%m%d).img
         ;;
 	eflasher)
 		RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img
