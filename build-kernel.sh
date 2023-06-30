@@ -97,7 +97,6 @@ download_img() {
         RKPARAM=$(dirname $0)/${1}/partmap.txt
         ;;
     esac
-    
     if [ -f "${RKPARAM}" ]; then
 	    echo "${1} found."
     else
@@ -246,8 +245,6 @@ fi
 if [ x"$DISABLE_MKIMG" = x"1" ]; then
     exit 0
 fi
-
-echo "building kernel ok."
 if ! [ -x "$(command -v simg2img)" ]; then
     sudo apt update
     sudo apt install android-tools-fsutils
@@ -256,7 +253,6 @@ fi
 cd ${TOPPATH}
 download_img ${TARGET_OS}
 ./tools/update_kernel_bin_to_img.sh ${OUT} ${KERNEL_SRC} ${TARGET_OS} ${TOPPATH}/prebuilt
-
 
 if [ $? -eq 0 ]; then
     echo "updating kernel ok."

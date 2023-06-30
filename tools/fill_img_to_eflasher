@@ -12,7 +12,6 @@ SOC=$2
 TARGET_OS=$3
 
 OS_IMAGES_DIR=${TOPPATH}/${TARGET_OS}
-CODENAME=bionic
 
 [ -z ${EFLASHER_RAW_IMG} -o -z ${SOC} -o -z ${TARGET_OS} ] && {
         echo "Usage: $0 <image name> <plat>"
@@ -73,7 +72,7 @@ gen_eflasher_conf()
     if [ ${3} = "yes" ]; then
         AutoFlashOSName=${2}
     fi
-	OSNamesMergeWithComma="friendlywr,friendlycore,android,lubuntu"
+	OSNamesMergeWithComma="buildroot,debian-bullseye-desktop-arm64,friendlycore-focal-arm64"
 	cat > ${1}/eflasher.conf <<EOL
 ; This is the eFlasher configuration file.
 ; See http://wiki.friendlyarm.com/wiki/index.php/EFlasher for detailed information.
@@ -91,6 +90,17 @@ autoRestore=
 ; If the "autoExit" set to true, the eflasher-gui will automatically exit after burning or restoring is completed,
 ; You can do something else after burning or restoring by modifying /opt/run-eflasher.sh.
 autoExit=false
+
+[UI]
+; HDMI overscan option, examples:
+;     screenSizePercent=auto
+;     screenSizePercent=90
+screenSizePercent=auto
+
+welcomeMessage=
+hideMenuButton=false
+hideBackupAndRestoreButton=false
+hideStatusBar=false
 EOL
 }
 

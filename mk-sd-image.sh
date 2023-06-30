@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eu
 
-. tools/global.sh
-
 # Copyright (C) Guangzhou FriendlyARM Computer Tech. Co., Ltd.
 # (http://www.friendlyarm.com)
 #
@@ -19,6 +17,8 @@ set -eu
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, you can access it online at
 # http://www.gnu.org/licenses/gpl-2.0.html.
+
+source tools/global.sh
 function usage() {
        echo "Usage: $0 <${SUPPORTED_OS}|eflasher>"
        exit 0
@@ -169,6 +169,19 @@ if [ "x${TARGET_OS}" = "xeflasher" ]; then
 		exit 1
 	fi
 
+	if ! command -v mkfs.exfat &> /dev/null; then
+		if [ -f /etc/os-release ]; then
+			. /etc/os-release
+			case "$VERSION_CODENAME" in
+			jammy)
+				sudo apt-get install exfatprogs
+				;;
+			*)
+				sudo apt-get install exfat-fuse exfat-utils
+				;;
+			esac
+		fi
+	fi
 	mkfs.exfat ${LOOP_DEVICE}p1 -n FriendlyARM
 
 	# cleanup
