@@ -29,7 +29,7 @@ true ${BUILD_THIRD_PARTY_DRIVER:=1}
 true ${KCFG:=nanopi-r2_linux_defconfig}
 
 KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
-KERNEL_BRANCH=nanopi-r2-v5.15.y
+KERNEL_BRANCH=nanopi-r2-v6.1.y
 ARCH=arm64
 CROSS_COMPILE=aarch64-linux-gnu-
 export PATH=/opt/FriendlyARM/toolchain/11.3-aarch64/bin/:$PATH
@@ -81,7 +81,7 @@ KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 true ${KERNEL_SRC:=${OUT}/kernel-${SOC}}
 
 function usage() {
-       echo "Usage: $0 <friendlycore-lite-focal-arm64|debian-bullseye-core-arm64|friendlywrt22|friendlywrt22-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
+       echo "Usage: $0 <friendlycore-lite-focal-arm64|debian-bullseye-core-arm64|openmediavault-arm64|friendlywrt22|friendlywrt22-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
        echo "# example:"
        echo "# clone kernel source from github:"
        echo "    git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}"
@@ -110,7 +110,7 @@ true ${TARGET_OS:=${1,,}}
 
 
 case ${TARGET_OS} in
-friendlycore* | debian-* | friendlywrt* | eflasher)
+friendlycore* | debian-* | openmediavault-* | friendlywrt* | eflasher)
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
@@ -289,7 +289,7 @@ function build_kernel() {
             if [ -d ${HEADERS_SCRIPT_DIR} ]; then
                 cp -avf ${HEADERS_SCRIPT_DIR}/* ./usr/src/linux-headers-*${KERNEL_VER}*/scripts/
                 if [ $? -ne 0 ]; then
-                    echo "failed to copy bin file to /usr/src/linux-headers-5.15.y."
+                    echo "failed to copy bin file to /usr/src/linux-headers-6.1.y."
                     exit 1
                 fi
             else

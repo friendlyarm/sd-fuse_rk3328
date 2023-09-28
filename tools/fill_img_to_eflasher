@@ -34,8 +34,8 @@ OS_IMAGES_DIR=${TOPPATH}/${TARGET_OS}
 }
 
 case ${TARGET_OS} in
-friendlycore-*|debian-*)
-        RAW_FILE=${SOC}-eflasher-${TARGET_OS%-*}-5.15-arm64-$(date +%Y%m%d).img ;;
+friendlycore-*|debian-*|openmediavault-*)
+        RAW_FILE=${SOC}-eflasher-${TARGET_OS%-*}-6.1-arm64-$(date +%Y%m%d).img ;;
 friendlywrt22)
         RAW_FILE=${SOC}-eflasher-friendlywrt-22.03-$(date +%Y%m%d).img ;;
 friendlywrt22-docker)
@@ -45,7 +45,7 @@ friendlywrt21)
 friendlywrt21-docker)
         RAW_FILE=${SOC}-eflasher-friendlywrt-21.02-docker-$(date +%Y%m%d).img ;;
 *)
-        RAW_FILE=${SOC}-eflasher-${TARGET_OS%-*}-5.15-arm64-$(date +%Y%m%d).img ;;
+        RAW_FILE=${SOC}-eflasher-${TARGET_OS%-*}-6.1-arm64-$(date +%Y%m%d).img ;;
 esac
 
 AUTOSTART=no
@@ -80,7 +80,7 @@ gen_eflasher_conf()
     if [ ${3} = "yes" ]; then
         AutoFlashOSName=${2}
     fi
-	OSNamesMergeWithComma="friendlywr21,friendlywr21-docker,friendlywr22,friendlywr22-docker,friendlycore-lite-focal-arm64,debian-bullseye-core-arm64"
+	OSNamesMergeWithComma="friendlywr21,friendlywr21-docker,friendlywr22,friendlywr22-docker,friendlycore-lite-focal-arm64,debian-bullseye-core-arm64,openmediavault-arm64"
 	cat > ${1}/eflasher.conf <<EOL
 ; This is the eFlasher configuration file.
 ; See http://wiki.friendlyarm.com/wiki/index.php/EFlasher for detailed information.
