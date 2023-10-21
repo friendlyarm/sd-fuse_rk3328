@@ -27,6 +27,9 @@ tar xzf debian-bullseye-core-arm64-images.tgz
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/openmediavault-arm64-images.tgz
 tar xzf openmediavault-arm64-images.tgz
 
+wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt23-images.tgz
+tar xzf friendlywrt23-images.tgz
+
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt22-images.tgz
 tar xzf friendlywrt22-images.tgz
 
@@ -45,6 +48,9 @@ tar xzf emmc-flasher-images.tgz
 
 ./mk-sd-image.sh openmediavault-arm64
 ./mk-emmc-image.sh openmediavault-arm64
+
+./mk-sd-image.sh friendlywrt23
+./mk-emmc-image.sh friendlywrt23
 
 ./mk-sd-image.sh friendlywrt22
 ./mk-emmc-image.sh friendlywrt22
