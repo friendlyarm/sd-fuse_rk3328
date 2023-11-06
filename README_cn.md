@@ -71,6 +71,14 @@ sudo ./fusing.sh /dev/sdX friendlycore-focal-arm64
 out/rk3328-sd-friendlycore-focal-4.19-arm64-YYYYMMDD.img
 ```
 
+#### 创建一个不使用OverlayFS的SD卡镜像
+产品量产需要从SD卡导出根文件系统时, 需要提前禁用OverlayFS, 下面的命令将制作一个已禁用OverlayFS的SD卡镜像:
+```
+cp prebuilt/parameter-ext4.txt friendlycore-focal-arm64/parameter.txt
+./mk-sd-image.sh friendlycore-focal-arm64
+```
+使用此SD卡镜像制作SD启动卡, 运行系统并进行量产所需的设置后, 将SD卡插入到Linux电脑并挂载, 使用cp或rsync命令拷贝最后一个分区的文件和目录, 即可得到完整的可用于量产的rootfs根文件系统, 最后[参考此处的内容](#从根文件系统制作一个可启动的SD卡)制作成可量产的SD卡镜像或eMMC镜像。
+
 
 ### 重新打包 SD-to-eMMC 卡刷固件
 *注: 这里以friendlycore-focal系统为例进行说明*  

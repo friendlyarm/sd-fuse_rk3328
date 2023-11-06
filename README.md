@@ -71,6 +71,14 @@ The following flashable image file will be generated, it is now ready to be used
 out/rk3328-sd-friendlycore-focal-4.19-arm64-YYYYMMDD.img
 ```
 
+#### Create an SD card image that does not use OverlayFS
+The following command will create an SD card image with OverlayFS disabled:
+```
+cp prebuilt/parameter-ext4.txt friendlycore-focal-arm64/parameter.txt
+./mk-sd-image.sh friendlycore-focal-arm64
+```
+Disabling overlayfs is useful for exporting root filesystem.
+
 
 ### Build your own SD-to-eMMC Image
 *Note: Here we use friendlycore-focal system as an example*  
