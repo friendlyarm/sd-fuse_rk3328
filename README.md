@@ -23,8 +23,6 @@ For other kernel versions, please switch to the related git branch.
 
 * friendlywrt23
 * friendlywrt23-docker
-* friendlywrt22
-* friendlywrt22-docker
 * friendlywrt21
 * friendlywrt21-docker
 * debian-bullseye-core-arm64
