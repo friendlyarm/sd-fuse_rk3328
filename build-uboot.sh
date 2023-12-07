@@ -24,7 +24,7 @@ true ${SOC:=rk3328}
 true ${DISABLE_MKIMG:=0}
 
 UBOOT_REPO=https://github.com/friendlyarm/uboot-rockchip
-UBOOT_BRANCH=nanopi4-v2017.09
+UBOOT_BRANCH=nanopi-r2-v2017.09
 
 TOPPATH=$PWD
 OUT=$TOPPATH/out
