@@ -24,17 +24,61 @@ true ${DISABLE_MKIMG:=0}
 true ${LOGO:=}
 true ${KERNEL_LOGO:=}
 true ${MK_HEADERS_DEB:=0}
+true ${BUILD_THIRD_PARTY_DRIVER:=1}
+true ${KCFG:=nanopi4_linux_defconfig}
 
 KERNEL_REPO=https://github.com/friendlyarm/kernel-rockchip
 KERNEL_BRANCH=nanopi4-v4.19.y
 
 ARCH=arm64
-KCFG=nanopi4_linux_defconfig
 KIMG=kernel.img
 KDTB=resource.img
 KALL=nanopi4-images
 CROSS_COMPILE=aarch64-linux-gnu-
 export PATH=/opt/FriendlyARM/toolchain/11.3-aarch64/bin/:$PATH
+
+declare -a KERNEL_3RD_DRIVERS=()
+KERNEL_3RD_DRIVERS+=("https://github.com/friendlyarm/rtl8821CU")
+KERNEL_3RD_DRIVERS+=("https://github.com/friendlyarm/rtl8822bu")
+KERNEL_3RD_DRIVERS+=("https://github.com/friendlyarm/rtl8822cs")
+KERNEL_3RD_DRIVERS+=("https://github.com/friendlyarm/rtl8812au")
+
+declare -a KERNEL_3RD_DRIVER_BRANCHES=()
+KERNEL_3RD_DRIVER_BRANCHES+=("nanopi-r2")
+KERNEL_3RD_DRIVER_BRANCHES+=("nanopi-r2")
+KERNEL_3RD_DRIVER_BRANCHES+=("nanopi-r2")
+KERNEL_3RD_DRIVER_BRANCHES+=("nanopi-r2")
+
+declare -a KERNEL_3RD_DRIVER_NAME=()
+KERNEL_3RD_DRIVER_NAME+=("rtl8821CU")
+KERNEL_3RD_DRIVER_NAME+=("rtl8822bu")
+KERNEL_3RD_DRIVER_NAME+=("rtl8822cs")
+KERNEL_3RD_DRIVER_NAME+=("rtl8812au")
+
+build_external_module() {
+    DRIVER_REPO=$1
+    DRIVER_BRANCHE=$2
+    DRIVER_NAME=$3
+
+    (cd ${OUT} && {
+        if [ ! -d ${DRIVER_NAME} ]; then
+            git clone ${DRIVER_REPO} -b ${DRIVER_BRANCHE} ${DRIVER_NAME}
+        else
+            (cd ${DRIVER_NAME} && {
+                make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y clean
+            })
+        fi
+        (cd ${DRIVER_NAME} && {
+            make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KSRC=${KERNEL_SRC} CONFIG_VENDOR_FRIENDLYARM=y -j$(nproc)
+            if [ $? -ne 0 ]; then
+                echo "failed to build 3rd kernel modules: ${DRIVER_NAME}"
+                exit 1
+            fi
+            ${CROSS_COMPILE}strip --strip-unneeded ${DRIVER_NAME}.ko
+            cp ${DRIVER_NAME}.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+        })
+    })
+}
 
 # 
 # kernel logo:
@@ -48,8 +92,8 @@ export PATH=/opt/FriendlyARM/toolchain/11.3-aarch64/bin/:$PATH
 TOPPATH=$PWD
 OUT=$TOPPATH/out
 if [ ! -d $OUT ]; then
-	echo "path not found: $OUT"
-	exit 1
+    echo "path not found: $OUT"
+    exit 1
 fi
 KMODULES_OUTDIR="${OUT}/output_${SOC}_kmodules"
 true ${KERNEL_SRC:=${OUT}/kernel-${SOC}}
@@ -69,7 +113,7 @@ function usage() {
        echo "# also can do:"
        echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh buildroot"
        echo "# other options, build kernel-headers:"
-       echo "    MK_HEADERS_DEB=1 ./build-kernel.sh buildroot"
+       echo "    MK_HEADERS_DEB=1 BUILD_THIRD_PARTY_DRIVER=0 ./build-kernel.sh buildroot"
        exit 0
 }
 
@@ -84,10 +128,10 @@ true ${TARGET_OS:=${1,,}}
 
 case ${TARGET_OS} in
 buildroot*|debian-*|friendlycore-focal-arm64 )
-        ;;
+    ;;
 *)
-        echo "Error: Unsupported target OS: ${TARGET_OS}"
-        exit 1
+    echo "Error: Unsupported target OS: ${TARGET_OS}"
+    exit 1
 esac
 
 download_img() {
@@ -97,10 +141,11 @@ download_img() {
         RKPARAM=$(dirname $0)/${1}/partmap.txt
         ;;
     esac
+    
     if [ -f "${RKPARAM}" ]; then
-	    echo "${1} found."
+        echo "${1} found."
     else
-	ROMFILE=`./tools/get_pkg_filename.sh ${1}`
+    ROMFILE=`./tools/get_pkg_filename.sh ${1}`
         cat << EOF
 Warn: Image not found for ${1}
 ----------------
@@ -129,22 +174,22 @@ EOF
 }
 
 if [ ! -d ${KERNEL_SRC} ]; then
-	git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}
+    git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${KERNEL_SRC}
 fi
 
 if [ ! -d /opt/FriendlyARM/toolchain/11.3-aarch64 ]; then
-	echo "please install aarch64-gcc-11.3 first, using these commands: "
-	echo "    git clone https://github.com/friendlyarm/prebuilts.git -b master --depth 1"
-	echo "    cd prebuilts/gcc-x64"
-	echo "    sudo tar xvf toolchain-11.3-aarch64.tar.xz -C /"
-	exit 1
+    echo "please install aarch64-gcc-11.3 first, using these commands: "
+    echo "    git clone https://github.com/friendlyarm/prebuilts.git -b master --depth 1"
+    echo "    cd prebuilts/gcc-x64"
+    echo "    sudo tar xvf toolchain-11.3-aarch64.tar.xz -C /"
+    exit 1
 fi
 
 if [ -f "${LOGO}" ]; then
-	cp -f ${LOGO} ${KERNEL_SRC}/logo.bmp
-	echo "using ${LOGO} as logo."
+    cp -f ${LOGO} ${KERNEL_SRC}/logo.bmp
+    echo "using ${LOGO} as logo."
 else
-	echo "using official logo."
+    echo "using official logo."
 fi
 
 if [ -f "${KERNEL_LOGO}" ]; then
@@ -160,8 +205,8 @@ make distclean
 touch .scmversion
 make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} ${KCFG}
 if [ $? -ne 0 ]; then
-	echo "failed to build kernel."
-	exit 1
+    echo "failed to build kernel."
+    exit 1
 fi
 if [ x"${TARGET_OS}" = x"eflasher" ]; then
     cp -avf .config .config.old
@@ -179,28 +224,52 @@ rm -rf ${KMODULES_OUTDIR}
 mkdir -p ${KMODULES_OUTDIR}
 make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} INSTALL_MOD_PATH=${KMODULES_OUTDIR} modules -j$(nproc)
 if [ $? -ne 0 ]; then
-	echo "failed to build kernel modules."
-        exit 1
+    echo "failed to build kernel modules."
+    exit 1
 fi
 make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} INSTALL_MOD_PATH=${KMODULES_OUTDIR} modules_install
 if [ $? -ne 0 ]; then
-	echo "failed to build kernel modules."
-        exit 1
+    echo "failed to build kernel modules."
+    exit 1
 fi
 KERNEL_VER=`make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} kernelrelease`
 rm -rf ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER}/kernel/drivers/gpu/arm/mali400/
 [ ! -f "${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER}/modules.dep" ] && depmod -b ${KMODULES_OUTDIR} -E Module.symvers -F System.map -w ${KERNEL_VER}
 (cd ${KMODULES_OUTDIR} && find . -name \*.ko | xargs ${CROSS_COMPILE}strip --strip-unneeded)
 
+# build cryptodev-linux
+(cd ${OUT} && {
+    if [ ! -d cryptodev-linux ]; then
+        git clone https://github.com/cryptodev-linux/cryptodev-linux.git -b master cryptodev-linux
+    fi
+    (cd cryptodev-linux && {
+        make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} KERNEL_DIR=${KERNEL_SRC}
+        cp cryptodev.ko ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER} -afv
+    })
+})
 
-if [ ! -d ${KMODULES_OUTDIR}/lib ]; then
-	echo "not found kernel modules."
-	exit 1
+# build usb wifi driver
+if [ ${BUILD_THIRD_PARTY_DRIVER} -eq 1 ]; then
+    for (( i=0; i<${#KERNEL_3RD_DRIVERS[@]}; i++ ));
+    do
+        build_external_module ${KERNEL_3RD_DRIVERS[$i]} ${KERNEL_3RD_DRIVER_BRANCHES[$i]} ${KERNEL_3RD_DRIVER_NAME[$i]}
+    done
 fi
 
+if [ ! -d ${KMODULES_OUTDIR}/lib ]; then
+    echo "not found kernel modules."
+    exit 1
+fi
+
+(cd ${KMODULES_OUTDIR}/lib/modules/${KERNEL_VER}/ && {
+    rm -rf ./build ./source
+    echo "depmod ${KMODULES_OUTDIR} ${KERNEL_VER} ..."
+    depmod -a -b ${KMODULES_OUTDIR} ${KERNEL_VER}
+})
+
 if [ ${MK_HEADERS_DEB} -eq 1 ]; then
-	KERNEL_HEADERS_DEB=${OUT}/linux-headers-${KERNEL_VER}.deb
-	rm -f ${KERNEL_HEADERS_DEB}
+    KERNEL_HEADERS_DEB=${OUT}/linux-headers-${KERNEL_VER}.deb
+    rm -f ${KERNEL_HEADERS_DEB}
     make CROSS_COMPILE=${CROSS_COMPILE} ARCH=${ARCH} bindeb-pkg
     if [ $? -ne 0 ]; then
         echo "failed to build kernel header."
@@ -238,7 +307,7 @@ if [ ${MK_HEADERS_DEB} -eq 1 ]; then
         rm -f linux-headers-*${KERNEL_VER}*_arm64.deb
         rm -f linux-image-*${KERNEL_VER}*_arm64.deb
         rm -f linux-libc-dev_*${KERNEL_VER}*_arm64.deb
-		rm -f linux-firmware-image-*${KERNEL_VER}*_arm64.deb
+        rm -f linux-firmware-image-*${KERNEL_VER}*_arm64.deb
     })
 fi
 
