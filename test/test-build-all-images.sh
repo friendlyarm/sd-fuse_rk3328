@@ -21,8 +21,8 @@ cd sd-fuse_rk3328
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
 tar xzf friendlycore-lite-focal-arm64-images.tgz
 
-wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/debian-bullseye-core-arm64-images.tgz
-tar xzf debian-bullseye-core-arm64-images.tgz
+wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/debian-bookworm-core-arm64-images.tgz
+tar xzf debian-bookworm-core-arm64-images.tgz
 
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/openmediavault-arm64-images.tgz
 tar xzf openmediavault-arm64-images.tgz
@@ -43,8 +43,8 @@ tar xzf emmc-flasher-images.tgz
 ./mk-sd-image.sh friendlycore-lite-focal-arm64
 ./mk-emmc-image.sh friendlycore-lite-focal-arm64
 
-./mk-sd-image.sh debian-bullseye-core-arm64
-./mk-emmc-image.sh debian-bullseye-core-arm64
+./mk-sd-image.sh debian-bookworm-core-arm64
+./mk-emmc-image.sh debian-bookworm-core-arm64
 
 ./mk-sd-image.sh openmediavault-arm64
 ./mk-emmc-image.sh openmediavault-arm64
