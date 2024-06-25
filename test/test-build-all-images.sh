@@ -15,8 +15,8 @@ git clone ../../.git -b master sd-fuse_rk3328
 cd sd-fuse_rk3328
 
 
-wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-focal-arm64-images.tgz
-tar xzf friendlycore-lite-focal-arm64-images.tgz
+wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-lite-noble-arm64-images.tgz
+tar xzf friendlycore-lite-noble-arm64-images.tgz
 
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/debian-bookworm-core-arm64-images.tgz
 tar xzf debian-bookworm-core-arm64-images.tgz
@@ -37,8 +37,8 @@ wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/emmc-f
 tar xzf emmc-flasher-images.tgz
 
 
-./mk-sd-image.sh friendlycore-lite-focal-arm64
-./mk-emmc-image.sh friendlycore-lite-focal-arm64
+./mk-sd-image.sh friendlycore-lite-noble-arm64
+./mk-emmc-image.sh friendlycore-lite-noble-arm64
 
 ./mk-sd-image.sh debian-bookworm-core-arm64
 ./mk-emmc-image.sh debian-bookworm-core-arm64
@@ -55,6 +55,6 @@ tar xzf emmc-flasher-images.tgz
 ./mk-sd-image.sh friendlywrt21
 ./mk-emmc-image.sh friendlywrt21
 
-./mk-emmc-image.sh friendlycore-lite-focal-arm64 filename=friendlycore-lite-focal-auto-eflasher.img autostart=yes
+./mk-emmc-image.sh friendlycore-lite-noble-arm64 filename=friendlycore-lite-noble-auto-eflasher.img autostart=yes
 
 echo "done."

@@ -18,7 +18,7 @@ set -eu
 # along with this program; if not, you can access it online at
 # http://www.gnu.org/licenses/gpl-2.0.html.
 function usage() {
-       echo "Usage: $0 <friendlycore-lite-focal-arm64|debian-bookworm-core-arm64|openmediavault-arm64|friendlywrt23|friendlywrt23-docker|friendlywrt22|friendlywrt22-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
+       echo "Usage: $0 <friendlycore-lite-noble-arm64|debian-bookworm-core-arm64|openmediavault-arm64|friendlywrt23|friendlywrt23-docker|friendlywrt22|friendlywrt22-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
        exit 0
 }
 
@@ -48,7 +48,7 @@ esac
 true ${RAW_SIZE_MB:=0}
 if [ $RAW_SIZE_MB -eq 0 ]; then
 	case ${TARGET_OS} in
-	friendlycore-lite-focal-arm64)
+	friendlycore-lite-*)
 		RAW_SIZE_MB=7800 ;;
 	debian-*)
 		RAW_SIZE_MB=7800 ;;

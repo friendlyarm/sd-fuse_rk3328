@@ -121,7 +121,7 @@ true ${kernel_src:=out/kernel-${SOC}}
 true ${KERNEL_SRC:=$(readlink -f ${kernel_src})}
 
 function usage() {
-       echo "Usage: $0 <friendlycore-lite-focal-arm64|debian-bookworm-core-arm64|openmediavault-arm64|friendlywrt23|friendlywrt23-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
+       echo "Usage: $0 <friendlycore-lite-noble-arm64|debian-bookworm-core-arm64|openmediavault-arm64|friendlywrt23|friendlywrt23-docker|friendlywrt21|friendlywrt21-docker|eflasher>"
        echo "# example:"
        echo "# clone kernel source from github:"
        echo "    git clone ${KERNEL_REPO} --depth 1 -b ${KERNEL_BRANCH} ${kernel_src}"
@@ -131,12 +131,12 @@ function usage() {
        echo "    convert files/logo.jpg -type truecolor /tmp/logo.bmp"
        echo "    convert files/logo.jpg -type truecolor /tmp/logo_kernel.bmp"
        echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh eflasher"
-       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh friendlycore-lite-focal-arm64"
-       echo "    ./mk-emmc-image.sh friendlycore-lite-focal-arm64"
+       echo "    LOGO=/tmp/logo.bmp KERNEL_LOGO=/tmp/logo_kernel.bmp ./build-kernel.sh friendlycore-lite-noble-arm64"
+       echo "    ./mk-emmc-image.sh friendlycore-lite-noble-arm64"
        echo "# also can do:"
-       echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh friendlycore-lite-focal-arm64"
+       echo "    KERNEL_SRC=~/mykernel ./build-kernel.sh friendlycore-lite-noble-arm64"
        echo "# other options, build kernel-headers, enable/disable 3rd drivers:"
-       echo "    MK_HEADERS_DEB=1 BUILD_THIRD_PARTY_DRIVER=0 ./build-kernel.sh friendlycore-lite-focal-arm64"
+       echo "    MK_HEADERS_DEB=1 BUILD_THIRD_PARTY_DRIVER=0 ./build-kernel.sh friendlycore-lite-noble-arm64"
        exit 0
 }
 
