@@ -28,7 +28,7 @@ BOARD=RK3328/images-for-eflasher
 TARGET_OS=$(echo ${1,,}|sed 's/\///g')
 ROMFILE=`./tools/get_pkg_filename.sh ${TARGET_OS}`
 if [ -z ${ROMFILE} ]; then
-	echo "Usage: $0 <friendlycore-lite-noble-arm64|debian-bookworm-core-arm64|openmediavault-arm64|friendlywrt|eflasher>"
+	echo "Usage: $0 <OS>"
 	exit 1
 fi
 

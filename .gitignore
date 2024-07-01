@@ -31,6 +31,7 @@ kernel*
 /debian*
 /android*
 /friendlycore*
+/ubuntu-*
 /openmediavault-*
 /friendlydesktop*
 /eflasher

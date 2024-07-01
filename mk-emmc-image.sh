@@ -19,11 +19,11 @@ set -eu
 # http://www.gnu.org/licenses/gpl-2.0.html.
 
 function usage() {
-       echo "Usage: $0 <friendlywrt23,friendlywrt23-docker,friendlywrt22,friendlywrt22-docker,friendlywrt21,friendlywrt21-docker,friendlycore-lite-noble-arm64,debian-bookworm-core-arm64,openmediavault-arm64> [img filename] [options]"
+       echo "Usage: $0 <friendlywrt23,friendlywrt23-docker,friendlywrt22,friendlywrt22-docker,friendlywrt21,friendlywrt21-docker,ubuntu-noble-core-arm64,debian-bookworm-core-arm64,openmediavault-arm64> [img filename] [options]"
        echo "    examples:"
-       echo "        ./mk-emmc-image.sh friendlycore-lite-noble-arm64 filename=myimg-emmc.img autostart=yes"
-       echo "        ./mk-emmc-image.sh friendlycore-lite-noble-arm64 autostart=yes"
-       echo "        ./mk-emmc-image.sh friendlycore-lite-noble-arm64"
+       echo "        ./mk-emmc-image.sh ubuntu-noble-core-arm64 filename=myimg-emmc.img autostart=yes"
+       echo "        ./mk-emmc-image.sh ubuntu-noble-core-arm64 autostart=yes"
+       echo "        ./mk-emmc-image.sh ubuntu-noble-core-arm64"
        exit 0
 }
 
@@ -41,7 +41,7 @@ true ${SOC:=rk3328}
 true ${TARGET_OS:=$(echo ${1,,}|sed 's/\///g')}
 
 case ${TARGET_OS} in
-friendlycore* | debian-* | openmediavault-* | friendlywrt*)
+friendlycore* | ubuntu-*-core-arm64 | debian-*-core-arm64 | openmediavault-* | friendlywrt*)
         ;;
 *)
         echo "Error: Unsupported target OS: ${TARGET_OS}"
