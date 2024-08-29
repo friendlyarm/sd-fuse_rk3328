@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -eu
 
 HTTP_SERVER=112.124.9.243
 
@@ -11,7 +11,7 @@ mkdir -p tmp
 sudo rm -rf tmp/*
 
 cd tmp
-git clone ../../.git -b kernel-4.19 sd-fuse_rk3328
+git clone ../../.git sd-fuse_rk3328
 cd sd-fuse_rk3328
 
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlycore-focal-arm64-images.tgz

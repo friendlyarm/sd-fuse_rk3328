@@ -21,7 +21,7 @@ set -eu
 # http://www.gnu.org/licenses/gpl-2.0.html.
 
 function usage() {
-       echo "Usage: $0 <${SUPPORTED_OS}> [img filename] [options]"
+       echo "Usage: $0 <img dir> [img filename] [options]"
        echo "    examples:"
        echo "        ./mk-emmc-image.sh buildroot filename=myimg-emmc.img autostart=yes"
        echo "        ./mk-emmc-image.sh buildroot autostart=yes"

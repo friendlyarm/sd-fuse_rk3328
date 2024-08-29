@@ -20,7 +20,7 @@ set -eu
 
 source tools/global.sh
 function usage() {
-       echo "Usage: $0 <${SUPPORTED_OS}|eflasher>"
+       echo "Usage: $0 <img dir>"
        exit 0
 }
 
