@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eu
 
-# Copyright (C) Guangzhou FriendlyARM Computer Tech. Co., Ltd.
-# (http://www.friendlyarm.com)
+# Copyright (C) Guangzhou FriendlyElec Computer Tech. Co., Ltd.
+# (http://www.friendlyelec.com)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@ set -eu
 # along with this program; if not, you can access it online at
 # http://www.gnu.org/licenses/gpl-2.0.html.
 function usage() {
-       echo "Usage: $0 <OS>"
+       echo "Usage: $0 <img dir>"
        exit 0
 }
 
@@ -48,11 +48,7 @@ esac
 true ${RAW_SIZE_MB:=0}
 if [ $RAW_SIZE_MB -eq 0 ]; then
 	case ${TARGET_OS} in
-	friendlycore-lite-*)
-		RAW_SIZE_MB=7800 ;;
-	debian-*|ubuntu-*)
-		RAW_SIZE_MB=7800 ;;
-	openmediavault-*)
+	friendlycore-*|debian-*|ubuntu-*|openmediavault-*)
 		RAW_SIZE_MB=7800 ;;
 	friendlywrt*)
 		RAW_SIZE_MB=1500 ;;
@@ -60,9 +56,9 @@ if [ $RAW_SIZE_MB -eq 0 ]; then
 		RAW_SIZE_MB=7800 ;;
 	*)
 		RAW_SIZE_MB=7800 ;;
-	esac
+    esac
 fi
-	 
+
 if [ $# -eq 2 ]; then
 	RAW_FILE=$2
 else
@@ -70,17 +66,17 @@ else
 	friendlycore-*|debian-*|ubuntu-*|openmediavault-*)
 		RAW_FILE=${SOC}-sd-${TARGET_OS%-*}-6.1-arm64-$(date +%Y%m%d).img
 		;;
-	friendlywrt22)
-		RAW_FILE=${SOC}-sd-friendlywrt-22.03-arm64-$(date +%Y%m%d).img
-		;;
-	friendlywrt22-docker)
-		RAW_FILE=${SOC}-sd-friendlywrt-22.03-docker-arm64-$(date +%Y%m%d).img
-		;;
 	friendlywrt23)
 		RAW_FILE=${SOC}-sd-friendlywrt-23.05-arm64-$(date +%Y%m%d).img
 		;;
 	friendlywrt23-docker)
 		RAW_FILE=${SOC}-sd-friendlywrt-23.05-docker-arm64-$(date +%Y%m%d).img
+		;;
+	friendlywrt22)
+		RAW_FILE=${SOC}-sd-friendlywrt-22.03-arm64-$(date +%Y%m%d).img
+		;;
+	friendlywrt22-docker)
+		RAW_FILE=${SOC}-sd-friendlywrt-22.03-docker-arm64-$(date +%Y%m%d).img
 		;;
 	friendlywrt21)
 		RAW_FILE=${SOC}-sd-friendlywrt-21.02-arm64-$(date +%Y%m%d).img

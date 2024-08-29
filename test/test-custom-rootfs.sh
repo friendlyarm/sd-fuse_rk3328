@@ -19,20 +19,8 @@ wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/emmc-f
 tar xzf emmc-flasher-images.tgz
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/rootfs/rootfs-ubuntu-noble-core-arm64.tgz
 
-TEMPSCRIPT=`mktemp script.XXXXXX`
-cat << 'EOL' > $PWD/$TEMPSCRIPT
-#!/bin/bash
-tar xzf rootfs-ubuntu-noble-core-arm64.tgz --numeric-owner --same-owner
-echo hello > ubuntu-noble-core-arm64/rootfs/root/welcome.txt
-./build-rootfs-img.sh ubuntu-noble-core-arm64/rootfs ubuntu-noble-core-arm64
-EOL
-chmod 755 $PWD/$TEMPSCRIPT
-if [ $(id -u) -ne 0 ]; then
-    ./tools/fakeroot-ng $PWD/$TEMPSCRIPT
-else
-    $PWD/$TEMPSCRIPT
-fi
-rm $PWD/$TEMPSCRIPT
+sudo tar xzfp rootfs-ubuntu-noble-core-arm64.tgz --numeric-owner --same-owner
+sudo ./build-rootfs-img.sh ubuntu-noble-core-arm64/rootfs ubuntu-noble-core-arm64
 
 ./mk-sd-image.sh ubuntu-noble-core-arm64
 ./mk-emmc-image.sh ubuntu-noble-core-arm64

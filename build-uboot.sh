@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eu
 
-# Copyright (C) Guangzhou FriendlyARM Computer Tech. Co., Ltd.
-# (http://www.friendlyarm.com)
+# Copyright (C) Guangzhou FriendlyElec Computer Tech. Co., Ltd.
+# (http://www.friendlyelec.com)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,7 +34,7 @@ true ${uboot_src:=${OUT}/uboot-${SOC}}
 true ${UBOOT_SRC:=${uboot_src}}
 
 function usage() {
-       echo "Usage: $0 <ubuntu-noble-core-arm64|debian-bookworm-core-arm64|openmediavault-arm64|friendlywrt23|friendlywrt23-docker|friendlywrt22|friendlywrt22-docker|friendlywrt21|friendlywrt21-docker>"
+       echo "Usage: $0 <img dir>"
        echo "# example:"
        echo "# clone uboot source from github:"
        echo "    git clone ${UBOOT_REPO} --depth 1 -b ${UBOOT_BRANCH} ${UBOOT_SRC}"
@@ -67,12 +67,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 check_and_install_package
-if ! [ -x "$(command -v python2)" ]; then
-    sudo apt install python2
-fi
-if ! [ -x "$(command -v python)" ]; then
-    (cd /usr/bin/ && sudo ln -s python2 python)
-fi
+
 # get include path for this python version
 INCLUDE_PY=$(python -c "import sysconfig as s; print(s.get_config_vars()['INCLUDEPY'])")
 if [ ! -f "${INCLUDE_PY}/Python.h" ]; then

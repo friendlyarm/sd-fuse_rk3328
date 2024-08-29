@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -eu
 
 HTTP_SERVER=112.124.9.243
 
@@ -11,9 +11,8 @@ mkdir -p tmp
 sudo rm -rf tmp/*
 
 cd tmp
-git clone ../../.git -b master sd-fuse_rk3328
+git clone ../../.git sd-fuse_rk3328
 cd sd-fuse_rk3328
-
 
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/ubuntu-noble-core-arm64-images.tgz
 tar xzf ubuntu-noble-core-arm64-images.tgz
@@ -26,9 +25,6 @@ tar xzf openmediavault-arm64-images.tgz
 
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt23-images.tgz
 tar xzf friendlywrt23-images.tgz
-
-wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt22-images.tgz
-tar xzf friendlywrt22-images.tgz
 
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/friendlywrt21-images.tgz
 tar xzf friendlywrt21-images.tgz
@@ -48,9 +44,6 @@ tar xzf emmc-flasher-images.tgz
 
 ./mk-sd-image.sh friendlywrt23
 ./mk-emmc-image.sh friendlywrt23
-
-./mk-sd-image.sh friendlywrt22
-./mk-emmc-image.sh friendlywrt22
 
 ./mk-sd-image.sh friendlywrt21
 ./mk-emmc-image.sh friendlywrt21

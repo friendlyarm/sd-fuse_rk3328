@@ -28,7 +28,6 @@ true ${MKFS:="${TOP}/tools/${HOST_ARCH}mke2fs"}
 
 true ${SOC:=rk3328}
 ARCH=arm64
-KCFG=nanopi-r2_linux_defconfig
 KIMG=kernel.img
 KDTB=resource.img
 CROSS_COMPILE=aarch64-linux-gnu-
@@ -118,7 +117,7 @@ if [ -f ${TARGET_OS}/rootfs.img ]; then
         case ${TARGET_OS} in
         openmediavault-*)
             # disable overlayfs for openmediavault
-            cp ${TOP}/prebuilt/parameter-ext4.txt ${TOP}/${TARGET_OS}/parameter.txt
+            cp ${TOP}/prebuilt/parameter-plain.txt ${TOP}/${TARGET_OS}/parameter.txt
             ;;
         *)
             ${TOP}/tools/generate-partmap-txt.sh ${IMG_SIZE} ${TARGET_OS}

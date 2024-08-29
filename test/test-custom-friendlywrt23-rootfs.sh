@@ -19,20 +19,8 @@ wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/images-for-eflasher/emmc-f
 tar xzf emmc-flasher-images.tgz
 wget --no-proxy http://${HTTP_SERVER}/dvdfiles/RK3328/rootfs/rootfs-friendlywrt23.tgz
 
-TEMPSCRIPT=`mktemp script.XXXXXX`
-cat << 'EOL' > $PWD/$TEMPSCRIPT
-#!/bin/bash
-tar xzf rootfs-friendlywrt23.tgz --numeric-owner --same-owner
-echo hello > rootfs-friendlywrt23/root/welcome.txt
-./build-rootfs-img.sh rootfs-friendlywrt23 friendlywrt23
-EOL
-chmod 755 $PWD/$TEMPSCRIPT
-if [ $(id -u) -ne 0 ]; then
-    ./tools/fakeroot-ng $PWD/$TEMPSCRIPT
-else
-    $PWD/$TEMPSCRIPT
-fi
-rm $PWD/$TEMPSCRIPT
+sudo tar xzfp rootfs-friendlywrt23.tgz --numeric-owner --same-owner
+sudo ./build-rootfs-img.sh rootfs-friendlywrt23 friendlywrt23
 
 ./mk-sd-image.sh friendlywrt23
 ./mk-emmc-image.sh friendlywrt23 autostart=yes
