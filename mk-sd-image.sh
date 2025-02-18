@@ -50,6 +50,8 @@ if [ $RAW_SIZE_MB -eq 0 ]; then
 	case ${TARGET_OS} in
 	friendlycore-*|debian-*|ubuntu-*|openmediavault-*)
 		RAW_SIZE_MB=7800 ;;
+	friendlywrt*docker)
+		RAW_SIZE_MB=7800 ;;
 	friendlywrt*)
 		RAW_SIZE_MB=1500 ;;
 	eflasher)
@@ -88,7 +90,7 @@ else
 		RAW_FILE=${SOC}-eflasher-$(date +%Y%m%d).img
 		;;
 	*)
-		RAW_FILE=${SOC}-${TARGET_OS%-*}-6.1-arm64-$(date +%Y%m%d).img
+		RAW_FILE=${SOC}-sd-${TARGET_OS%-*}-6.1-arm64-$(date +%Y%m%d).img
 		;;
 	esac
 fi
