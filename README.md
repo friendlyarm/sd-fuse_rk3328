@@ -32,6 +32,7 @@ For other kernel versions, please switch to the related git branch.
 * debian-bookworm-core-arm64
 * ubuntu-noble-core-arm64
 * openmediavault-arm64
+* alpine-linux-arm64
 
   
 To build an SD card image for ubuntu-noble-core, for example like this:
