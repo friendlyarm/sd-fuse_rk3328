@@ -62,8 +62,8 @@ If the files are not prepared in advance, the script will automatically download
 *Note: Here we use ubuntu-noble-core system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), due to the bandwidth of the http server, we recommend downloading the file from the [NetDrive](https://download.friendlyelec.com/rk3328):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.1.y --single-branch sd-fuse_rk3328-kernel6.1
-cd sd-fuse_rk3328-kernel6.1
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.6.y --single-branch sd-fuse_rk3328-kernel6.6
+cd sd-fuse_rk3328-kernel6.6
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/ubuntu-noble-core-arm64-images.tgz
 tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
@@ -94,8 +94,8 @@ The benefits of disabling OverlayFS are as follows:
 *Note: Here we use ubuntu-noble-core system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher), here you need to download the ubuntu-noble-core and eflasher [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.1.y --single-branch sd-fuse_rk3328-kernel6.1
-cd sd-fuse_rk3328-kernel6.1
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.6.y --single-branch sd-fuse_rk3328-kernel6.6
+cd sd-fuse_rk3328-kernel6.6
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/ubuntu-noble-core-arm64-images.tgz
 tar xvzf ubuntu-noble-core-arm64-images.tgz
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/emmc-flasher-images.tgz
@@ -125,8 +125,8 @@ tar --warning=no-file-changed -cvpzf /rootfs.tar.gz \
 *Note: Here we use ubuntu-noble-core system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.1.y --single-branch sd-fuse_rk3328-kernel6.1
-cd sd-fuse_rk3328-kernel6.1
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.6.y --single-branch sd-fuse_rk3328-kernel6.6
+cd sd-fuse_rk3328-kernel6.6
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/ubuntu-noble-core-arm64-images.tgz
 tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
@@ -169,8 +169,8 @@ If not, you can add BTRFS support by add the line CONFIG_BTRFS_FS=y to the .conf
 *Note: Here we use ubuntu-noble-core system as an example*  
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.1.y --single-branch sd-fuse_rk3328-kernel6.1
-cd sd-fuse_rk3328-kernel6.1
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.6.y --single-branch sd-fuse_rk3328-kernel6.6
+cd sd-fuse_rk3328-kernel6.6
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/ubuntu-noble-core-arm64-images.tgz
 tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
@@ -209,8 +209,8 @@ MK_HEADERS_DEB=1 ./build-kernel.sh ubuntu-noble-core-arm64
 *Note: Here we use ubuntu-noble-core system as an example* 
 Clone this repository locally, then download and uncompress the [pre-built images](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher):
 ```
-git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.1.y --single-branch sd-fuse_rk3328-kernel6.1
-cd sd-fuse_rk3328-kernel6.1
+git clone https://github.com/friendlyarm/sd-fuse_rk3328 -b kernel-6.6.y --single-branch sd-fuse_rk3328-kernel6.6
+cd sd-fuse_rk3328-kernel6.6
 wget http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher/ubuntu-noble-core-arm64-images.tgz
 tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
