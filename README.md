@@ -31,6 +31,7 @@ For other kernel versions, please switch to the related git branch.
 * friendlywrt21-docker
 * debian-bookworm-core-arm64
 * ubuntu-noble-core-arm64
+* alpine-linux-arm64
 * openmediavault-arm64
 
   
@@ -42,7 +43,7 @@ To build an SD card image for ubuntu-noble-core, for example like this:
 ## Where to download files
 The following files may be required to build SD card image:
 * kernel source code: In the directory "07_Source codes" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [Github](https://github.com/friendlyarm/kernel-rockchip), the branch name is nanopi-r2-v6.1.y
-* uboot source code: In the directory "07_Source codes" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [Github](https://github.com/friendlyarm/uboot-rockchip), the branch name is nanopi4-v2017.09
+* uboot source code: In the directory "07_Source codes" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [Github](https://github.com/friendlyarm/uboot-rockchip), the branch name is nanopi-r2-v2017.09
 * pre-built partition image: In the directory "03_Partition image files" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [HTTP server](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher)
 * compressed root file system tar ball: In the directory "06_File systems" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [HTTP server](http://112.124.9.243/dvdfiles/rk3328/rootfs)
   
@@ -217,7 +218,7 @@ tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
 Download the u-boot source code from github that matches the OS version, the environment variable UBOOT_SRC is used to specify the local source code directory:
 ```
-git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi4-v2017.09 --depth 1 uboot
+git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi-r2-v2017.09 --depth 1 uboot
 UBOOT_SRC=uboot ./build-uboot.sh ubuntu-noble-core-arm64
 ```
 ### Common Issues and Solutions

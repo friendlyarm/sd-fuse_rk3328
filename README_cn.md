@@ -30,6 +30,7 @@ sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的�
 * friendlywrt21-docker
 * debian-bookworm-core-arm64
 * ubuntu-noble-core-arm64
+* alpine-linux-arm64
 * openmediavault-arm64
 
   
@@ -41,7 +42,7 @@ sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的�
 ## 获得打包固件所需要的素材
 制作固件所需要的素材有:
 * 内核源代码: 在[网盘](https://download.friendlyelec.com/rk3328)的 "07_源代码" 目录中, 或者从[此github链接](https://github.com/friendlyarm/kernel-rockchip)下载, 分支为nanopi-r2-v6.1.y
-* uboot源代码: 在[网盘](https://download.friendlyelec.com/rk3328)的 "07_源代码" 目录中, 或者从[此github链接](https://github.com/friendlyarm/uboot-rockchip)下载, 分支为nanopi4-v2017.09
+* uboot源代码: 在[网盘](https://download.friendlyelec.com/rk3328)的 "07_源代码" 目录中, 或者从[此github链接](https://github.com/friendlyarm/uboot-rockchip)下载, 分支为nanopi-r2-v2017.09
 * 分区镜像文件: 在[网盘](https://download.friendlyelec.com/rk3328)的 "03_分区镜像文件" 目录中, 或者从[此http链接](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher)下载
 * 文件系统压缩包: 在[网盘](https://download.friendlyelec.com/rk3328)的 "06_文件系统" 目录中, 或者从[此http链接](http://112.124.9.243/dvdfiles/rk3328/rootfs)下载
   
@@ -215,7 +216,7 @@ tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
 从github克隆与OS版本相匹配的u-boot源代码到本地, 环境变量UBOOT_SRC用于指定本地源代码目录:
 ```
-git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi4-v2017.09 --depth 1 uboot
+git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi-r2-v2017.09 --depth 1 uboot
 UBOOT_SRC=uboot ./build-uboot.sh ubuntu-noble-core-arm64
 ```
 
