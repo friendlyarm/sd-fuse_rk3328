@@ -85,6 +85,7 @@ out/rk3328-sd-ubuntu-noble-core-6.1-arm64-YYYYMMDD.img
 The following command will create an SD card image with OverlayFS disabled:
 ```
 cp prebuilt/parameter-plain.txt ubuntu-noble-core-arm64/parameter.txt
+cp prebuilt/dtbo-plain.img ubuntu-noble-core-arm64/dtbo.img
 ./mk-sd-image.sh ubuntu-noble-core-arm64
 ```
 The benefits of disabling OverlayFS are as follows:  
