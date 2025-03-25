@@ -77,6 +77,7 @@ out/rk3328-sd-friendlycore-focal-4.19-arm64-YYYYMMDD.img
 The following command will create an SD card image with OverlayFS disabled:
 ```
 cp prebuilt/parameter-plain.txt friendlycore-focal-arm64/parameter.txt
+cp prebuilt/dtbo-plain.img friendlycore-focal-arm64/dtbo.img
 ./mk-sd-image.sh friendlycore-focal-arm64
 ```
 The benefits of disabling OverlayFS are as follows:  
