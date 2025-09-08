@@ -17,7 +17,7 @@ This repository is a bunch of scripts to build bootable SD card images for Frien
 
 ## Kernel Version Support
 The sd-fuse use multiple git branches to support each version of the kernel, the current branche supported kernel version is as follows:
-* 6.1.y   
+* 6.6.y   
   
 For other kernel versions, please switch to the related git branch.
 ## Target board OS Supported
@@ -31,9 +31,8 @@ For other kernel versions, please switch to the related git branch.
 * friendlywrt21-docker
 * debian-bookworm-core-arm64
 * ubuntu-noble-core-arm64
-* openmediavault-arm64
 * alpine-linux-arm64
-* arch-linux-arm64
+* openmediavault-arm64
 
   
 To build an SD card image for ubuntu-noble-core, for example like this:
@@ -43,8 +42,8 @@ To build an SD card image for ubuntu-noble-core, for example like this:
   
 ## Where to download files
 The following files may be required to build SD card image:
-* kernel source code: In the directory "07_Source codes" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [Github](https://github.com/friendlyarm/kernel-rockchip), the branch name is nanopi-r2-v6.1.y
-* uboot source code: In the directory "07_Source codes" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [Github](https://github.com/friendlyarm/uboot-rockchip), the branch name is nanopi4-v2017.09
+* kernel source code: In the directory "07_Source codes" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [Github](https://github.com/friendlyarm/kernel-rockchip), the branch name is nanopi-r2-v6.6.y
+* uboot source code: In the directory "07_Source codes" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [Github](https://github.com/friendlyarm/uboot-rockchip), the branch name is nanopi-r2-v2017.09
 * pre-built partition image: In the directory "03_Partition image files" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [HTTP server](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher)
 * compressed root file system tar ball: In the directory "06_File systems" of [NetDrive](https://download.friendlyelec.com/rk3328), or download from [HTTP server](http://112.124.9.243/dvdfiles/rk3328/rootfs)
   
@@ -79,7 +78,7 @@ Or, package it as an SD card image file:
 ```
 The following flashable image file will be generated, it is now ready to be used to boot the device into ubuntu-noble-core:  
 ```
-out/rk3328-sd-ubuntu-noble-core-6.1-arm64-YYYYMMDD.img
+out/rk3328-sd-ubuntu-noble-core-6.6-arm64-YYYYMMDD.img
 ```
 
 #### Create an SD card image that does not use OverlayFS
@@ -110,7 +109,7 @@ Then use the following command to build the SD-to-eMMC image, the autostart=yes 
 ```
 The following flashable image file will be generated, ready to be used to boot the device into eflasher system and then flash ubuntu-noble-core system to eMMC: 
 ```
-out/rk3328-eflasher-ubuntu-noble-core-6.1-arm64-YYYYMMDD.img
+out/rk3328-eflasher-ubuntu-noble-core-6.6-arm64-YYYYMMDD.img
 ```
 ### Backup rootfs and create custom SD image (to burn your application into other boards)
 #### Backup rootfs
@@ -179,13 +178,17 @@ tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
 Download the kernel source code from github:
 ```
-git clone https://github.com/friendlyarm/kernel-rockchip -b nanopi-r2-v6.1.y --depth 1 kernel
+git clone https://github.com/friendlyarm/kernel-rockchip -b nanopi-r2-v6.6.y --depth 1 kernel
 ```
 Customize the kernel configuration:
 ```
 cd kernel
 touch .scmversion
+
 make ARCH=arm64 nanopi-r2_linux_defconfig
+# Optionally, load configuration for FriendlyWrt
+# make ARCH=arm64 nanopi-r2_linux_defconfig friendlywrt.config
+
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- savedefconfig
 cp defconfig ./arch/arm64/configs/my_defconfig                  # Save the configuration as my_defconfig
@@ -219,7 +222,7 @@ tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
 Download the u-boot source code from github that matches the OS version, the environment variable UBOOT_SRC is used to specify the local source code directory:
 ```
-git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi4-v2017.09 --depth 1 uboot
+git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi-r2-v2017.09 --depth 1 uboot
 UBOOT_SRC=uboot ./build-uboot.sh ubuntu-noble-core-arm64
 ```
 ### Common Issues and Solutions

@@ -17,7 +17,7 @@ sd-fuse 提供一些工具和脚本, 用于制作SD卡固件, 具体用途如下
 
 ## 支持的内核版本
 sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的内核版本为:
-* 6.1.y   
+* 6.6.y   
   
 其他内核版本, 请切换到相应的git分支
 ## 支持的目标板OS
@@ -30,9 +30,8 @@ sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的�
 * friendlywrt21-docker
 * debian-bookworm-core-arm64
 * ubuntu-noble-core-arm64
-* openmediavault-arm64
 * alpine-linux-arm64
-* arch-linux-arm64
+* openmediavault-arm64
 
   
 这些OS名称是分区镜像文件存放的目录名, 在脚本内亦有严格定义, 所以不能改动, 例如要制作ubuntu-noble-core的SD固件, 可使用如下命令:
@@ -42,8 +41,8 @@ sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的�
   
 ## 获得打包固件所需要的素材
 制作固件所需要的素材有:
-* 内核源代码: 在[网盘](https://download.friendlyelec.com/rk3328)的 "07_源代码" 目录中, 或者从[此github链接](https://github.com/friendlyarm/kernel-rockchip)下载, 分支为nanopi-r2-v6.1.y
-* uboot源代码: 在[网盘](https://download.friendlyelec.com/rk3328)的 "07_源代码" 目录中, 或者从[此github链接](https://github.com/friendlyarm/uboot-rockchip)下载, 分支为nanopi4-v2017.09
+* 内核源代码: 在[网盘](https://download.friendlyelec.com/rk3328)的 "07_源代码" 目录中, 或者从[此github链接](https://github.com/friendlyarm/kernel-rockchip)下载, 分支为nanopi-r2-v6.6.y
+* uboot源代码: 在[网盘](https://download.friendlyelec.com/rk3328)的 "07_源代码" 目录中, 或者从[此github链接](https://github.com/friendlyarm/uboot-rockchip)下载, 分支为nanopi-r2-v2017.09
 * 分区镜像文件: 在[网盘](https://download.friendlyelec.com/rk3328)的 "03_分区镜像文件" 目录中, 或者从[此http链接](http://112.124.9.243/dvdfiles/rk3328/images-for-eflasher)下载
 * 文件系统压缩包: 在[网盘](https://download.friendlyelec.com/rk3328)的 "06_文件系统" 目录中, 或者从[此http链接](http://112.124.9.243/dvdfiles/rk3328/rootfs)下载
   
@@ -78,7 +77,7 @@ sudo ./fusing.sh /dev/sdX ubuntu-noble-core-arm64
 ```
 命令执行成功后, 将生成以下文件, 此文件可烧写到SD卡运行:  
 ```
-out/rk3328-sd-ubuntu-noble-core-6.1-arm64-YYYYMMDD.img
+out/rk3328-sd-ubuntu-noble-core-6.6-arm64-YYYYMMDD.img
 ```
 
 #### 创建一个不使用OverlayFS的SD卡镜像
@@ -108,7 +107,7 @@ tar xvzf emmc-flasher-images.tgz
 ```
 命令执行成功后, 将生成以下文件, 此文件可烧写到SD卡运行:  
 ```
-out/rk3328-eflasher-ubuntu-noble-core-6.1-arm64-YYYYMMDD.img
+out/rk3328-eflasher-ubuntu-noble-core-6.6-arm64-YYYYMMDD.img
 ```
 ### 备份文件系统并创建SD映像(将系统及应用复制到另一块开发板)
 #### 备份根文件系统
@@ -177,13 +176,17 @@ tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
 从github克隆内核源代码到本地:
 ```
-git clone https://github.com/friendlyarm/kernel-rockchip -b nanopi-r2-v6.1.y --depth 1 kernel
+git clone https://github.com/friendlyarm/kernel-rockchip -b nanopi-r2-v6.6.y --depth 1 kernel
 ```
 根据需要配置内核:
 ```
 cd kernel
 touch .scmversion
+
 make ARCH=arm64 nanopi-r2_linux_defconfig
+# Optionally, load configuration for FriendlyWrt
+# make ARCH=arm64 nanopi-r2_linux_defconfig friendlywrt.config
+
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig     # 根据需要改动配置
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- savedefconfig
 cp defconfig ./arch/arm64/configs/my_defconfig                  # 保存配置 my_defconfig
@@ -217,7 +220,7 @@ tar xvzf ubuntu-noble-core-arm64-images.tgz
 ```
 从github克隆与OS版本相匹配的u-boot源代码到本地, 环境变量UBOOT_SRC用于指定本地源代码目录:
 ```
-git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi4-v2017.09 --depth 1 uboot
+git clone https://github.com/friendlyarm/uboot-rockchip -b nanopi-r2-v2017.09 --depth 1 uboot
 UBOOT_SRC=uboot ./build-uboot.sh ubuntu-noble-core-arm64
 ```
 
