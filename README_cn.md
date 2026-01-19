@@ -28,7 +28,7 @@ sd-fuse 使用不同的git分支来支持不同的内核版本, 当前支持的�
 * friendlywrt23-docker
 * friendlywrt21
 * friendlywrt21-docker
-* debian-bookworm-core-arm64
+* debian-trixie-core-arm64
 * ubuntu-noble-core-arm64
 * alpine-linux-arm64
 * openmediavault-arm64
